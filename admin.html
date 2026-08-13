@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration | Cabinet d'Expertise La Différence</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR (simplifiée) ================= -->
+<nav class="navbar navbar-expand-lg ld-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand ld-brand" href="index.html">
+      <span class="ld-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="38" height="38">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="#F1C40F" stroke-width="2.5" stroke-dasharray="20 93" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="13" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-dasharray="52 82" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="8" fill="#0B6B3A"/>
+        </svg>
+      </span>
+      <span class="ld-brand-text">
+        <strong>LA DIFFÉRENCE</strong>
+        <small>Administration</small>
+      </span>
+    </a>
+    <button class="btn ld-btn-outline-dark btn-sm" id="logoutBtn" type="button" hidden>Se déconnecter</button>
+  </div>
+</nav>
+
+<!-- ================= CONNEXION ADMIN ================= -->
+<section class="ld-section ld-auth-section" id="adminLoginSection">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <p class="ld-eyebrow text-center">Espace réservé</p>
+        <h1 class="ld-h2 text-center">Administration</h1>
+        <p class="ld-lead text-center mb-4">Connectez-vous avec votre compte autorisé.</p>
+
+        <div class="ld-auth-card">
+          <form id="adminLoginForm" class="ld-auth-form">
+            <div class="mb-3">
+              <label class="form-label" for="adminEmail">Email</label>
+              <input type="email" class="form-control ld-input" id="adminEmail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="adminPassword">Mot de passe</label>
+              <input type="password" class="form-control ld-input" id="adminPassword" required>
+            </div>
+            <button type="submit" class="btn ld-btn-primary btn-lg w-100">Se connecter</button>
+            <p class="ld-auth-feedback" id="adminLoginFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACCÈS REFUSÉ ================= -->
+<section class="ld-section" id="adminDeniedSection" hidden>
+  <div class="container text-center">
+    <i class="fa-solid fa-lock" style="font-size:2.4rem;color:#C0392B;"></i>
+    <h2 class="ld-h2 mt-3">Accès refusé</h2>
+    <p class="ld-lead">Ce compte n'a pas les droits d'administration.</p>
+    <a href="index.html" class="btn ld-btn-primary">Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ================= TABLEAU DE BORD ADMIN ================= -->
+<section class="ld-section" id="adminDashboard" hidden>
+  <div class="container">
+
+    <p class="ld-eyebrow">Administration</p>
+    <h1 class="ld-h2">Gestion des inscriptions et attestations</h1>
+
+    <div class="row g-5 mt-2">
+
+      <!-- ---------- Inscriptions à traiter ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Inscriptions</h2>
+        <div class="table-responsive ld-table-wrap">
+          <table class="table ld-table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Participant</th>
+                <th>Email</th>
+                <th>Formation</th>
+                <th>Statut</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody id="inscriptionsTableBody">
+              <!-- rempli dynamiquement -->
+            </tbody>
+          </table>
+        </div>
+        <p class="ld-empty-state" id="inscriptionsEmpty" hidden>Aucune inscription pour le moment.</p>
+      </div>
+
+      <!-- ---------- Ajouter une attestation ---------- -->
+      <div class="col-lg-6">
+        <h2 class="ld-h3">Ajouter une attestation</h2>
+        <form class="ld-auth-card" id="attestationForm">
+          <div class="mb-3">
+            <label class="form-label">Participant</label>
+            <select class="form-select ld-input" id="attestationParticipant" required>
+              <option value="">— Choisir —</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Formation</label>
+            <select class="form-select ld-input" id="attestationFormation" required>
+              <option value="">— Choisir —</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Lien du fichier PDF</label>
+            <input type="url" class="form-control ld-input" id="attestationUrl" placeholder="https://..." required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date de délivrance</label>
+            <input type="date" class="form-control ld-input" id="attestationDate" required>
+          </div>
+          <button type="submit" class="btn ld-btn-primary w-100">Ajouter l'attestation</button>
+          <p class="ld-auth-feedback" id="attestationFeedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
