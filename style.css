@@ -721,6 +721,144 @@ img{ max-width: 100%; display:block; }
 }
 [data-aos].ld-visible{ opacity: 1; transform: translateY(0); }
 
+/* ---------- Bouton outline sombre (utilisé sur fond clair, ex. navbar espace membre) ---------- */
+.ld-btn-outline-dark{
+  background: transparent;
+  border: 2px solid var(--ld-green-dark);
+  color: var(--ld-green-dark);
+  font-weight: 600;
+  padding: .45rem 1.1rem;
+  border-radius: 999px;
+  transition: var(--ld-transition);
+}
+.ld-btn-outline-dark:hover{
+  background: var(--ld-green-dark);
+  color: var(--ld-white);
+}
+
+/* ---------- Page compte.html : carte de connexion / inscription ---------- */
+.ld-auth-section{ padding-top: 4rem; }
+.ld-auth-card{
+  background: var(--ld-white);
+  border-radius: var(--ld-radius);
+  box-shadow: var(--ld-shadow);
+  padding: 2rem;
+}
+.ld-auth-tabs{
+  display: flex;
+  background: var(--ld-grey);
+  border-radius: 999px;
+  padding: .3rem;
+  margin-bottom: 1.5rem;
+}
+.ld-auth-tab{
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: .6rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--ld-text-muted);
+  cursor: pointer;
+  transition: var(--ld-transition);
+}
+.ld-auth-tab.active{
+  background: var(--ld-green-dark);
+  color: var(--ld-white);
+}
+.ld-auth-context{
+  background: rgba(241,196,15,.14);
+  border: 1px solid rgba(241,196,15,.4);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+  font-size: .88rem;
+  color: var(--ld-green-ink);
+  margin-bottom: 1.2rem;
+}
+.ld-auth-context i{ color: var(--ld-gold); margin-right: .4rem; }
+.ld-auth-feedback{
+  margin: .9rem 0 0;
+  font-size: .88rem;
+  font-weight: 600;
+  min-height: 1.2rem;
+}
+.ld-auth-feedback.success{ color: var(--ld-green-dark); }
+.ld-auth-feedback.error{ color: #C0392B; }
+
+/* ---------- Page espace-membre.html : tableau de bord ---------- */
+.ld-dashboard-header{
+  background: linear-gradient(135deg, var(--ld-green-ink), var(--ld-green-dark));
+  color: var(--ld-white);
+  padding: 3.5rem 0 2.5rem;
+}
+.ld-dashboard-header .ld-eyebrow{ color: var(--ld-green-light); }
+.ld-dashboard-header .ld-h2{ color: var(--ld-white); margin-bottom: .5rem; }
+.ld-dashboard-header .ld-lead{ color: rgba(255,255,255,.75); margin: 0; }
+
+.ld-h3{
+  font-family: var(--ld-font-display);
+  font-size: 1.3rem;
+  color: var(--ld-green-ink);
+  margin-bottom: 1.2rem;
+}
+.ld-dashboard-list{ display: flex; flex-direction: column; gap: 1rem; }
+.ld-dashboard-card{
+  background: var(--ld-white);
+  border: 1px solid rgba(11,107,58,.1);
+  border-radius: var(--ld-radius);
+  padding: 1.3rem 1.4rem;
+  transition: var(--ld-transition);
+}
+.ld-dashboard-card:hover{ box-shadow: var(--ld-shadow); }
+.ld-dashboard-card-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .6rem;
+}
+.ld-dashboard-card h3{
+  font-family: var(--ld-font-display);
+  font-size: 1.02rem;
+  color: var(--ld-green-ink);
+  margin-bottom: .4rem;
+}
+.ld-dashboard-card p{
+  font-size: .88rem;
+  color: var(--ld-text-muted);
+  margin-bottom: .8rem;
+}
+.ld-dashboard-card p i{ color: var(--ld-green-dark); margin-right: .3rem; }
+
+.ld-badge{
+  font-family: var(--ld-font-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.ld-badge-warning{ background: rgba(241,196,15,.18); color: #9A7B0A; }
+.ld-badge-success{ background: rgba(46,204,113,.18); color: var(--ld-green-dark); }
+.ld-badge-muted{ background: rgba(91,107,96,.14); color: var(--ld-text-muted); }
+
+.ld-empty-state{
+  background: var(--ld-grey);
+  border-radius: var(--ld-radius);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--ld-text-muted);
+  font-size: .92rem;
+}
+.ld-empty-state a{
+  display: inline-block;
+  margin-top: .5rem;
+  color: var(--ld-green-dark);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px){
   .ld-hero{ min-height: auto; padding-top: 2rem; }

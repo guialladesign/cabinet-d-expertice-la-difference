@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon compte | Cabinet d'Expertise La Différence</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR (simplifiée) ================= -->
+<nav class="navbar navbar-expand-lg ld-navbar sticky-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand ld-brand" href="index.html">
+      <span class="ld-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="38" height="38">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="#F1C40F" stroke-width="2.5" stroke-dasharray="20 93" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="13" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-dasharray="52 82" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="8" fill="#0B6B3A"/>
+        </svg>
+      </span>
+      <span class="ld-brand-text">
+        <strong>LA DIFFÉRENCE</strong>
+        <small>Cabinet d'expertise</small>
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Ouvrir le menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#formations">Formations</a></li>
+        <li class="nav-item"><a class="nav-link active" href="compte.html">Mon compte</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= SECTION COMPTE ================= -->
+<section class="ld-section ld-auth-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-xl-5">
+
+        <p class="ld-eyebrow text-center">Espace participant</p>
+        <h1 class="ld-h2 text-center">Accédez à votre espace</h1>
+        <p class="ld-lead text-center mb-4">
+          Connectez-vous pour retrouver vos formations et vos attestations,
+          ou créez votre compte en quelques secondes.
+        </p>
+
+        <div class="ld-auth-card">
+          <div class="ld-auth-tabs">
+            <button class="ld-auth-tab active" data-tab="login" type="button">Se connecter</button>
+            <button class="ld-auth-tab" data-tab="signup" type="button">Créer un compte</button>
+          </div>
+
+          <p class="ld-auth-context" id="authContext" hidden>
+            <i class="fa-solid fa-circle-info"></i>
+            Connectez-vous ou créez un compte pour finaliser votre inscription à la formation
+            <strong id="authContextFormation"></strong>.
+          </p>
+
+          <!-- ---------- Connexion ---------- -->
+          <form class="ld-auth-form" id="loginForm">
+            <div class="mb-3">
+              <label class="form-label" for="loginEmail">Email</label>
+              <input type="email" class="form-control ld-input" id="loginEmail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="loginPassword">Mot de passe</label>
+              <input type="password" class="form-control ld-input" id="loginPassword" required minlength="6">
+            </div>
+            <button type="submit" class="btn ld-btn-primary btn-lg w-100">Se connecter</button>
+            <p class="ld-auth-feedback" id="loginFeedback" role="status" aria-live="polite"></p>
+          </form>
+
+          <!-- ---------- Création de compte ---------- -->
+          <form class="ld-auth-form" id="signupForm" hidden>
+            <div class="mb-3">
+              <label class="form-label" for="signupNom">Nom complet</label>
+              <input type="text" class="form-control ld-input" id="signupNom" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="signupTelephone">Téléphone</label>
+              <input type="tel" class="form-control ld-input" id="signupTelephone" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="signupEmail">Email</label>
+              <input type="email" class="form-control ld-input" id="signupEmail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="signupPassword">Mot de passe (6 caractères min.)</label>
+              <input type="password" class="form-control ld-input" id="signupPassword" required minlength="6">
+            </div>
+            <button type="submit" class="btn ld-btn-primary btn-lg w-100">Créer mon compte</button>
+            <p class="ld-auth-feedback" id="signupFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>

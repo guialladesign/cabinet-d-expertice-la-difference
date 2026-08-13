@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon espace | Cabinet d'Expertise La Différence</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR (simplifiée) ================= -->
+<nav class="navbar navbar-expand-lg ld-navbar sticky-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand ld-brand" href="index.html">
+      <span class="ld-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="38" height="38">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="#F1C40F" stroke-width="2.5" stroke-dasharray="20 93" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="13" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-dasharray="52 82" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="8" fill="#0B6B3A"/>
+        </svg>
+      </span>
+      <span class="ld-brand-text">
+        <strong>LA DIFFÉRENCE</strong>
+        <small>Cabinet d'expertise</small>
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Ouvrir le menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#formations">Formations</a></li>
+        <li class="nav-item"><a class="nav-link active" href="espace-membre.html">Mon espace</a></li>
+        <li class="nav-item ms-lg-2">
+          <button class="btn ld-btn-outline-dark btn-sm" id="logoutBtn" type="button">Se déconnecter</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= EN-TÊTE ESPACE MEMBRE ================= -->
+<header class="ld-dashboard-header">
+  <div class="container">
+    <p class="ld-eyebrow">Espace participant</p>
+    <h1 class="ld-h2" id="welcomeMessage">Bienvenue</h1>
+    <p class="ld-lead" id="loadingMessage">Chargement de vos informations…</p>
+  </div>
+</header>
+
+<!-- ================= CONTENU (masqué tant que non connecté/chargé) ================= -->
+<section class="ld-section" id="dashboardContent" hidden>
+  <div class="container">
+
+    <div class="row g-4">
+      <!-- ---------- Mes formations ---------- -->
+      <div class="col-lg-7">
+        <h2 class="ld-h3">Mes formations</h2>
+        <div id="formationsList" class="ld-dashboard-list">
+          <!-- rempli dynamiquement -->
+        </div>
+        <p class="ld-empty-state" id="formationsEmpty" hidden>
+          Vous n'êtes inscrit à aucune formation pour le moment.
+          <a href="index.html#formations">Voir le calendrier</a>
+        </p>
+      </div>
+
+      <!-- ---------- Mes attestations ---------- -->
+      <div class="col-lg-5">
+        <h2 class="ld-h3">Mes attestations</h2>
+        <div id="attestationsList" class="ld-dashboard-list">
+          <!-- rempli dynamiquement -->
+        </div>
+        <p class="ld-empty-state" id="attestationsEmpty" hidden>
+          Aucune attestation disponible pour l'instant.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
