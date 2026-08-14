@@ -192,6 +192,11 @@ img{ max-width: 100%; display:block; }
   background-position: center;
   transform: scale(1.05);
 }
+.ld-hero-bg-video{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  background: var(--ld-green-ink);
+}
 .ld-hero-overlay{
   position: absolute; inset: 0;
   background:
@@ -890,6 +895,19 @@ img{ max-width: 100%; display:block; }
   letter-spacing: .03em;
   color: var(--ld-text-muted);
   margin-bottom: .5rem;
+}
+
+/* ---------- Admin : aperçu bannière / image À propos ---------- */
+.ld-param-preview{
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--ld-grey);
+}
+.ld-param-preview-media{
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
 }
 
 /* ---------- Responsive ---------- */

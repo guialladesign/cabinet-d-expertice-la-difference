@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await Promise.all([
       loadInscriptions(),
       loadParticipantsAndFormationsOptions(),
-      loadGalerieAdmin()
+      loadGalerieAdmin(),
+      loadParametresAdmin()
     ]);
   };
 
@@ -295,6 +296,108 @@ document.addEventListener('DOMContentLoaded', async () => {
     feedback.classList.add('success');
     e.target.reset();
     loadGalerieAdmin();
+  });
+
+  /* =========================================================
+     PARAMÈTRES DU SITE : bannière + image "À propos"
+     ========================================================= */
+
+  const loadParametresAdmin = async () => {
+    const { data: parametres } = await sbClient
+      .from('parametres_site')
+      .select('cle, valeur, type');
+
+    if (!parametres) return;
+
+    const hero = parametres.find(p => p.cle === 'hero_media');
+    const about = parametres.find(p => p.cle === 'about_image');
+
+    const heroPreview = document.getElementById('heroCurrentPreview');
+    if (hero) {
+      heroPreview.innerHTML = hero.type === 'video'
+        ? `<video src="${hero.valeur}" muted preload="metadata" class="ld-param-preview-media"></video>`
+        : `<img src="${hero.valeur}" alt="Bannière actuelle" class="ld-param-preview-media">`;
+    }
+
+    const aboutPreview = document.getElementById('aboutCurrentPreview');
+    if (about) {
+      aboutPreview.innerHTML = `<img src="${about.valeur}" alt="Image À propos actuelle" class="ld-param-preview-media">`;
+    }
+  };
+
+  const enregistrerParametre = async (cle, fichier, type) => {
+    const chemin = `site/${cle}-${Date.now()}-${fichier.name.replace(/\s+/g, '-')}`;
+
+    const { error: uploadError } = await sbClient.storage
+      .from('galerie')
+      .upload(chemin, fichier);
+
+    if (uploadError) throw uploadError;
+
+    const { data: publicUrlData } = sbClient.storage
+      .from('galerie')
+      .getPublicUrl(chemin);
+
+    const { error: updateError } = await sbClient
+      .from('parametres_site')
+      .update({ valeur: publicUrlData.publicUrl, type, date_modification: new Date().toISOString() })
+      .eq('cle', cle);
+
+    if (updateError) throw updateError;
+  };
+
+  /* ---------- Formulaire bannière ---------- */
+  document.getElementById('heroForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('heroFeedback');
+    const submitBtn = document.getElementById('heroSubmitBtn');
+    const file = document.getElementById('heroFile').files[0];
+    if (!file) return;
+
+    feedback.textContent = 'Téléversement en cours…';
+    feedback.className = 'ld-auth-feedback';
+    submitBtn.disabled = true;
+
+    const type = file.type.startsWith('video') ? 'video' : 'photo';
+
+    try {
+      await enregistrerParametre('hero_media', file, type);
+      feedback.textContent = 'Bannière mise à jour avec succès.';
+      feedback.classList.add('success');
+      e.target.reset();
+      loadParametresAdmin();
+    } catch (err) {
+      feedback.textContent = 'Erreur : ' + err.message;
+      feedback.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* ---------- Formulaire image À propos ---------- */
+  document.getElementById('aboutForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('aboutFeedback');
+    const submitBtn = document.getElementById('aboutSubmitBtn');
+    const file = document.getElementById('aboutFile').files[0];
+    if (!file) return;
+
+    feedback.textContent = 'Téléversement en cours…';
+    feedback.className = 'ld-auth-feedback';
+    submitBtn.disabled = true;
+
+    try {
+      await enregistrerParametre('about_image', file, 'photo');
+      feedback.textContent = 'Photo mise à jour avec succès.';
+      feedback.classList.add('success');
+      e.target.reset();
+      loadParametresAdmin();
+    } catch (err) {
+      feedback.textContent = 'Erreur : ' + err.message;
+      feedback.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 
   /* ---------- Démarrage ---------- */

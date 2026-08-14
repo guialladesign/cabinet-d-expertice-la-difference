@@ -170,6 +170,45 @@
         <p class="ld-empty-state" id="galerieAdminEmpty" hidden>Aucun média ajouté pour le moment.</p>
       </div>
 
+      <!-- ---------- Bannière du site (photo ou vidéo) ---------- -->
+      <div class="col-lg-6">
+        <h2 class="ld-h3">Bannière d'accueil (photo ou vidéo)</h2>
+        <div class="ld-auth-card">
+          <div class="mb-3">
+            <p class="ld-eyebrow mb-2">Actuellement en ligne</p>
+            <div id="heroCurrentPreview" class="ld-param-preview"></div>
+          </div>
+          <form id="heroForm">
+            <div class="mb-3">
+              <label class="form-label">Nouvelle bannière (photo ou vidéo)</label>
+              <input type="file" class="form-control ld-input" id="heroFile" accept="image/*,video/*" required>
+              <small class="text-muted">Une vidéo doit rester légère (quelques Mo) pour ne pas ralentir le site.</small>
+            </div>
+            <button type="submit" class="btn ld-btn-primary w-100" id="heroSubmitBtn">Remplacer la bannière</button>
+            <p class="ld-auth-feedback" id="heroFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- ---------- Image de la section À propos ---------- -->
+      <div class="col-lg-6">
+        <h2 class="ld-h3">Photo de la section "À propos" (+15 ans d'expérience)</h2>
+        <div class="ld-auth-card">
+          <div class="mb-3">
+            <p class="ld-eyebrow mb-2">Actuellement en ligne</p>
+            <div id="aboutCurrentPreview" class="ld-param-preview"></div>
+          </div>
+          <form id="aboutForm">
+            <div class="mb-3">
+              <label class="form-label">Nouvelle photo</label>
+              <input type="file" class="form-control ld-input" id="aboutFile" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn ld-btn-primary w-100" id="aboutSubmitBtn">Remplacer la photo</button>
+            <p class="ld-auth-feedback" id="aboutFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
