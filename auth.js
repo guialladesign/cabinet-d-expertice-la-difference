@@ -18,23 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
     contextEl.hidden = false;
   }
 
-  /* ---------- Bascule entre les onglets Connexion / Création ---------- */
+  /* ---------- Bascule entre les onglets Connexion / Création / Invité ---------- */
   const tabs = document.querySelectorAll('.ld-auth-tab');
   const loginForm = document.getElementById('loginForm');
   const signupForm = document.getElementById('signupForm');
+  const guestForm = document.getElementById('guestForm');
+
+  const forms = { login: loginForm, signup: signupForm, guest: guestForm };
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      if (tab.dataset.tab === 'login') {
-        loginForm.hidden = false;
-        signupForm.hidden = true;
-      } else {
-        loginForm.hidden = true;
-        signupForm.hidden = false;
-      }
+      Object.entries(forms).forEach(([key, form]) => {
+        form.hidden = key !== tab.dataset.tab;
+      });
     });
   });
 
@@ -140,6 +139,57 @@ document.addEventListener('DOMContentLoaded', () => {
     feedback.textContent = 'Compte créé avec succès, redirection…';
     feedback.classList.add('success');
     await inscrireSiFormationEnAttente();
+  });
+
+  /* ---------- Formulaire d'inscription rapide (sans compte) ---------- */
+  guestForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('guestFeedback');
+    feedback.textContent = 'Inscription en cours…';
+    feedback.className = 'ld-auth-feedback';
+
+    const nom = document.getElementById('guestNom').value.trim();
+    const telephone = document.getElementById('guestTelephone').value.trim();
+    const email = document.getElementById('guestEmail').value.trim();
+
+    if (!formationCode) {
+      feedback.textContent = "Aucune formation sélectionnée. Merci de repartir du calendrier des formations.";
+      feedback.classList.add('error');
+      return;
+    }
+
+    try {
+      // Crée la fiche participant "invité" (user_id reste NULL)
+      const { data: participant, error: participantError } = await sbClient
+        .from('participants')
+        .insert({ nom, telephone, email })
+        .select('id')
+        .single();
+
+      if (participantError) throw participantError;
+
+      // Récupère l'identifiant de la formation à partir de son code
+      const { data: formation, error: formationError } = await sbClient
+        .from('formations')
+        .select('id')
+        .eq('code', formationCode)
+        .single();
+
+      if (formationError) throw formationError;
+
+      const { error: inscriptionError } = await sbClient
+        .from('inscriptions')
+        .insert({ participant_id: participant.id, formation_id: formation.id });
+
+      if (inscriptionError) throw inscriptionError;
+
+      feedback.textContent = `Merci ${nom} ! Votre inscription à la formation ${formationCode} a bien été enregistrée.`;
+      feedback.classList.add('success');
+      guestForm.reset();
+    } catch (err) {
+      feedback.textContent = "Erreur : " + err.message;
+      feedback.classList.add('error');
+    }
   });
 
 });

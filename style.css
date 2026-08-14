@@ -912,6 +912,42 @@ img{ max-width: 100%; display:block; }
   display: block;
 }
 
+/* ---------- Admin : barre d'outils inscriptions (filtre + export) ---------- */
+.ld-inscriptions-toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.ld-inscriptions-actions{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+}
+.ld-print-title{
+  display: none;
+  font-family: var(--ld-font-display);
+  font-size: 1rem;
+  color: var(--ld-green-ink);
+  margin-bottom: 1rem;
+}
+.ld-print-only-status{ display: none; }
+
+/* ---------- Impression : n'imprimer que le tableau des inscriptions ---------- */
+@media print{
+  body *{ visibility: hidden; }
+  #printArea, #printArea *{ visibility: visible; }
+  #printArea{ position: absolute; top: 0; left: 0; width: 100%; padding: 1rem; }
+  .no-print{ display: none !important; }
+  .ld-print-title{ display: block !important; }
+  .ld-print-only-status{ display: inline !important; }
+  .ld-status-select{ display: none !important; }
+  .ld-table-wrap{ box-shadow: none; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px){
   .ld-hero{ min-height: auto; padding-top: 2rem; }

@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const { data: inscriptions, error } = await sbClient
       .from('inscriptions')
-      .select('id, statut, participants ( nom, email ), formations ( code, titre )')
+      .select('id, statut, participants ( nom, email, telephone ), formations ( code, titre )')
       .order('date_inscription', { ascending: false });
 
     if (error || !inscriptions || inscriptions.length === 0) {
@@ -101,18 +101,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       const p = insc.participants;
       const f = insc.formations;
       const tr = document.createElement('tr');
+      tr.dataset.formationCode = f ? f.code : '';
       tr.innerHTML = `
         <td>${p ? p.nom : '—'}</td>
+        <td>${p ? (p.telephone || '—') : '—'}</td>
         <td>${p ? p.email : '—'}</td>
         <td><span class="ld-code">${f ? f.code : ''}</span> ${f ? f.titre : ''}</td>
         <td>
-          <select class="form-select form-select-sm ld-input ld-status-select" data-id="${insc.id}">
+          <select class="form-select form-select-sm ld-input ld-status-select no-print" data-id="${insc.id}">
             <option value="en_attente" ${insc.statut === 'en_attente' ? 'selected' : ''}>En attente</option>
             <option value="confirme" ${insc.statut === 'confirme' ? 'selected' : ''}>Confirmée</option>
             <option value="annule" ${insc.statut === 'annule' ? 'selected' : ''}>Annulée</option>
           </select>
+          <span class="ld-print-only-status">${{en_attente:'En attente', confirme:'Confirmée', annule:'Annulée'}[insc.statut] || insc.statut}</span>
         </td>
-        <td class="text-end">
+        <td class="text-end no-print">
           <button class="btn ld-btn-mini ld-save-status" data-id="${insc.id}" type="button">Enregistrer</button>
         </td>
       `;
@@ -135,6 +138,48 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
       });
     });
+
+    populateFormationFilter(inscriptions);
+  };
+
+  /* ---------- Filtre par formation (affichage + export) ---------- */
+  const populateFormationFilter = (inscriptions) => {
+    const select = document.getElementById('formationFilter');
+    const dejaVus = new Set();
+
+    // Repart de "Toutes les formations" à chaque rechargement
+    select.innerHTML = '<option value="all">Toutes les formations</option>';
+
+    inscriptions.forEach(insc => {
+      const f = insc.formations;
+      if (!f || dejaVus.has(f.code)) return;
+      dejaVus.add(f.code);
+      const opt = document.createElement('option');
+      opt.value = f.code;
+      opt.textContent = `${f.code} — ${f.titre}`;
+      select.appendChild(opt);
+    });
+
+    select.addEventListener('change', appliquerFiltreFormation);
+    appliquerFiltreFormation();
+  };
+
+  const appliquerFiltreFormation = () => {
+    const select = document.getElementById('formationFilter');
+    const printTitle = document.getElementById('printTitle');
+    const valeur = select.value;
+
+    document.querySelectorAll('#inscriptionsTableBody tr').forEach(tr => {
+      const match = valeur === 'all' || tr.dataset.formationCode === valeur;
+      tr.classList.toggle('d-none', !match);
+    });
+
+    if (valeur === 'all') {
+      printTitle.hidden = true;
+    } else {
+      printTitle.hidden = false;
+      printTitle.textContent = `Liste des participants — ${select.options[select.selectedIndex].textContent}`;
+    }
   };
 
   /* ---------- Remplit les menus déroulants du formulaire attestation ---------- */
@@ -402,6 +447,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     } finally {
       submitBtn.disabled = false;
     }
+  });
+
+  /* =========================================================
+     EXPORT DES PARTICIPANTS : Excel + Impression/PDF
+     ========================================================= */
+
+  const recupererLignesVisibles = () => {
+    const lignes = [];
+    document.querySelectorAll('#inscriptionsTableBody tr:not(.d-none)').forEach(tr => {
+      const cells = tr.querySelectorAll('td');
+      const statutTexte = cells[4].querySelector('.ld-status-select')?.selectedOptions[0]?.textContent || '';
+      lignes.push({
+        'Nom': cells[0].textContent.trim(),
+        'Téléphone': cells[1].textContent.trim(),
+        'Email': cells[2].textContent.trim(),
+        'Formation': cells[3].textContent.trim(),
+        'Statut': statutTexte
+      });
+    });
+    return lignes;
+  };
+
+  document.getElementById('exportExcelBtn').addEventListener('click', () => {
+    const lignes = recupererLignesVisibles();
+    if (lignes.length === 0) {
+      alert('Aucun participant à exporter.');
+      return;
+    }
+
+    const feuille = XLSX.utils.json_to_sheet(lignes);
+    const classeur = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(classeur, feuille, 'Participants');
+
+    const select = document.getElementById('formationFilter');
+    const nomFichier = select.value === 'all'
+      ? 'participants-cabinet-la-difference.xlsx'
+      : `participants-${select.value}.xlsx`;
+
+    XLSX.writeFile(classeur, nomFichier);
+  });
+
+  document.getElementById('exportPdfBtn').addEventListener('click', () => {
+    window.print();
   });
 
   /* ---------- Démarrage ---------- */

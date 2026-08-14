@@ -84,17 +84,33 @@
     <div class="row g-5 mt-2">
 
       <!-- ---------- Inscriptions à traiter ---------- -->
-      <div class="col-12">
-        <h2 class="ld-h3">Inscriptions</h2>
+      <div class="col-12" id="printArea">
+        <div class="ld-inscriptions-toolbar">
+          <h2 class="ld-h3 mb-0">Inscriptions</h2>
+          <div class="ld-inscriptions-actions no-print">
+            <select class="form-select form-select-sm ld-input" id="formationFilter" style="max-width:280px;">
+              <option value="all">Toutes les formations</option>
+            </select>
+            <button class="btn ld-btn-outline-dark btn-sm" id="exportExcelBtn" type="button">
+              <i class="fa-solid fa-file-excel"></i> Excel
+            </button>
+            <button class="btn ld-btn-outline-dark btn-sm" id="exportPdfBtn" type="button">
+              <i class="fa-solid fa-file-pdf"></i> Imprimer / PDF
+            </button>
+          </div>
+        </div>
+        <p class="ld-print-title" id="printTitle" hidden></p>
+
         <div class="table-responsive ld-table-wrap">
           <table class="table ld-table align-middle mb-0">
             <thead>
               <tr>
                 <th>Participant</th>
+                <th>Téléphone</th>
                 <th>Email</th>
                 <th>Formation</th>
                 <th>Statut</th>
-                <th class="text-end">Action</th>
+                <th class="text-end no-print">Action</th>
               </tr>
             </thead>
             <tbody id="inscriptionsTableBody">
@@ -217,6 +233,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
