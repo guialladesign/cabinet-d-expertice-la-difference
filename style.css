@@ -145,6 +145,18 @@ img{ max-width: 100%; display:block; }
   box-shadow: 0 8px 24px -18px rgba(6,51,29,.4);
 }
 .ld-brand{ display: flex; align-items: center; gap: .6rem; }
+.ld-logo-img{
+  height: 42px;
+  width: auto;
+  display: block;
+}
+.ld-footer-logo-chip{
+  display: inline-block;
+  background: var(--ld-white);
+  border-radius: 10px;
+  padding: .5rem .9rem;
+}
+.ld-footer-logo-chip .ld-logo-img{ height: 36px; }
 .ld-brand-text{ display: flex; flex-direction: column; line-height: 1.1; }
 .ld-brand-text strong{
   font-family: var(--ld-font-display);
