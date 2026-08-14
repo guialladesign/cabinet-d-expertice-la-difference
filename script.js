@@ -206,9 +206,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (testimonials.length) startAutoSlide();
 
-  /* ---------- Formulaire de contact ---------- */
+  /* ---------- Formulaire de contact (envoi réel via Netlify Forms) ---------- */
   const form = document.getElementById('contactForm');
   const feedback = document.getElementById('formFeedback');
+
+  const encoderDonneesFormulaire = (data) => {
+    return Object.keys(data)
+      .map(cle => encodeURIComponent(cle) + '=' + encodeURIComponent(data[cle]))
+      .join('&');
+  };
 
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -222,11 +228,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const nom = document.getElementById('nom').value.trim();
+      const formData = new FormData(form);
+      const donnees = {};
+      formData.forEach((valeur, cle) => { donnees[cle] = valeur; });
 
-      feedback.textContent = `Merci ${nom} ! Votre message a bien été enregistré. Notre équipe vous recontactera très vite.`;
-      feedback.classList.add('success');
-      form.reset();
-      form.classList.remove('was-validated');
+      feedback.textContent = 'Envoi en cours…';
+      feedback.classList.remove('success', 'error');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encoderDonneesFormulaire(donnees)
+      })
+        .then(() => {
+          feedback.textContent = `Merci ${nom} ! Votre message a bien été envoyé. Notre équipe vous recontactera très vite.`;
+          feedback.classList.add('success');
+          form.reset();
+          form.classList.remove('was-validated');
+        })
+        .catch(() => {
+          feedback.textContent = "Une erreur est survenue lors de l'envoi. Merci de réessayer, ou de nous contacter directement par WhatsApp.";
+          feedback.classList.add('error');
+        });
     });
   }
 

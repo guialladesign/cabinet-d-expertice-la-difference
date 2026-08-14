@@ -427,7 +427,11 @@
       </div>
 
       <div class="col-lg-7">
-        <form class="ld-form" id="contactForm" novalidate>
+        <form class="ld-form" id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="contact">
+          <p class="ld-hidden-field" aria-hidden="true">
+            <label>Ne pas remplir si vous êtes humain : <input name="bot-field"></label>
+          </p>
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label" for="nom">Nom</label>
