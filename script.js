@@ -130,22 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- Filtres de la galerie ---------- */
-  const filterButtons = document.querySelectorAll('.ld-filter-btn');
-  const galleryItems = document.querySelectorAll('.ld-gallery-item');
-
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-      galleryItems.forEach(item => {
-        const match = filter === 'all' || item.dataset.cat === filter;
-        item.classList.toggle('hidden', !match);
-      });
-    });
-  });
+  /* ---------- Filtres de la galerie : voir galerie.js ----------
+     (la galerie est maintenant chargée dynamiquement depuis Supabase,
+     les filtres sont donc initialisés une fois les médias affichés) */
 
   /* ---------- Modale vidéo de la galerie ---------- */
   const videoModal = document.getElementById('videoModal');

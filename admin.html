@@ -134,6 +134,42 @@
         </form>
       </div>
 
+      <!-- ---------- Ajouter une photo/vidéo à la galerie ---------- -->
+      <div class="col-lg-6">
+        <h2 class="ld-h3">Ajouter à la galerie du site</h2>
+        <form class="ld-auth-card" id="galerieForm">
+          <div class="mb-3">
+            <label class="form-label">Fichier (photo ou vidéo)</label>
+            <input type="file" class="form-control ld-input" id="galerieFile" accept="image/*,video/*" required>
+            <small class="text-muted">Formats : JPG, PNG, MP4. Fichier léger recommandé (quelques Mo max).</small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Catégorie</label>
+            <select class="form-select ld-input" id="galerieCategorie" required>
+              <option value="formations">Formations</option>
+              <option value="seminaires">Séminaires</option>
+              <option value="ateliers">Ateliers</option>
+              <option value="accompagnement">Accompagnement</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Légende (optionnel)</label>
+            <input type="text" class="form-control ld-input" id="galerieLegende" placeholder="Ex : Formation SERA - Ouagadougou">
+          </div>
+          <button type="submit" class="btn ld-btn-primary w-100" id="galerieSubmitBtn">Ajouter à la galerie</button>
+          <p class="ld-auth-feedback" id="galerieFeedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- ---------- Médias déjà en ligne ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Médias déjà en ligne</h2>
+        <div class="row g-3" id="galerieAdminList">
+          <!-- rempli dynamiquement -->
+        </div>
+        <p class="ld-empty-state" id="galerieAdminEmpty" hidden>Aucun média ajouté pour le moment.</p>
+      </div>
+
     </div>
   </div>
 </section>

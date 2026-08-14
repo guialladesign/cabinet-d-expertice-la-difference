@@ -274,57 +274,12 @@
       <button class="ld-filter-btn" data-filter="accompagnement">Accompagnement</button>
     </div>
 
-    <div class="row g-3 ld-gallery">
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="formations">
-        <div class="ld-gallery-card ld-gallery-card-video" data-type="video" data-video="videos/formation-1.mp4">
-          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80" alt="Aperçu vidéo — session de formation">
-          <span class="ld-play-btn" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
-          <div class="ld-gallery-overlay"><span>Formation (vidéo)</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="seminaires">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=600&q=80" alt="Séminaire professionnel">
-          <div class="ld-gallery-overlay"><span>Séminaire</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="ateliers">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80" alt="Atelier de travail en groupe">
-          <div class="ld-gallery-overlay"><span>Atelier</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="accompagnement">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80" alt="Accompagnement individuel">
-          <div class="ld-gallery-overlay"><span>Accompagnement</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="formations">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Formation en salle">
-          <div class="ld-gallery-overlay"><span>Formation</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="ateliers">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80" alt="Atelier pratique">
-          <div class="ld-gallery-overlay"><span>Atelier</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="seminaires">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&q=80" alt="Séminaire de renforcement">
-          <div class="ld-gallery-overlay"><span>Séminaire</span></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3 ld-gallery-item" data-cat="accompagnement">
-        <div class="ld-gallery-card">
-          <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=600&q=80" alt="Rencontre d'accompagnement">
-          <div class="ld-gallery-overlay"><span>Accompagnement</span></div>
-        </div>
-      </div>
+    <div class="row g-3 ld-gallery" id="galleryContainer">
+      <!-- Rempli automatiquement depuis la galerie ajoutée en admin -->
     </div>
+    <p class="ld-empty-state" id="galleryEmpty" hidden>
+      La galerie sera bientôt enrichie de nouvelles photos et vidéos.
+    </p>
   </div>
 </section>
 
@@ -566,7 +521,10 @@
 </footer>
 
 <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
+<script src="galerie.js"></script>
 </body>
 </html>

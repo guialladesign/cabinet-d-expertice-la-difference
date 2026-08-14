@@ -859,14 +859,63 @@ img{ max-width: 100%; display:block; }
   text-decoration: underline;
 }
 
+/* ---------- Galerie : média vidéo natif (remplace la modale pour la galerie dynamique) ---------- */
+.ld-gallery-media{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}
+
+/* ---------- Admin : aperçu des médias de la galerie ---------- */
+.ld-admin-media-card{
+  background: var(--ld-white);
+  border: 1px solid rgba(11,107,58,.1);
+  border-radius: 12px;
+  padding: .7rem;
+  text-align: center;
+}
+.ld-admin-media-preview{
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: .5rem;
+  background: var(--ld-grey);
+}
+.ld-admin-media-cat{
+  font-family: var(--ld-font-mono);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--ld-text-muted);
+  margin-bottom: .5rem;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px){
   .ld-hero{ min-height: auto; padding-top: 2rem; }
   .ld-section{ padding: 4rem 0; }
   .ld-about-badge{ position: static; margin-top: 1rem; }
 }
+@media (max-width: 767.98px){
+  .ld-section{ padding: 3rem 0; }
+  .ld-auth-section{ padding-top: 2.5rem; }
+  .ld-auth-card{ padding: 1.4rem; }
+  .ld-form{ padding: 1.4rem; }
+  .ld-table thead th, .ld-table tbody td{ padding: .75rem .8rem; font-size: .85rem; }
+  .ld-table thead th:nth-child(3), .ld-table tbody td:nth-child(3){ min-width: 160px; }
+  .ld-dashboard-header{ padding: 2.5rem 0 1.8rem; }
+  .ld-dashboard-card{ padding: 1.1rem 1.2rem; }
+  .ld-status-select{ min-width: 130px; }
+  .ld-stat-ring{ width: 88px; height: 88px; }
+  .ld-stat-text{ margin-top: -64px; }
+}
 @media (max-width: 575.98px){
   .ld-hero-actions{ flex-direction: column; }
   .ld-hero-actions .btn{ width: 100%; text-align: center; }
   .ld-whatsapp-float{ width: 52px; height: 52px; font-size: 1.5rem; bottom: 1.1rem; right: 1.1rem; }
+  .ld-auth-tabs{ flex-direction: column; gap: .3rem; }
+  .ld-auth-tab{ border-radius: 10px; }
+  .ld-video-modal{ padding: .8rem; }
 }
