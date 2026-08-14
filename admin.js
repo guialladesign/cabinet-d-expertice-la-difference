@@ -370,6 +370,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         ? `<video src="${about.valeur}" muted preload="metadata" class="ld-param-preview-media"></video>`
         : `<img src="${about.valeur}" alt="Média À propos actuel" class="ld-param-preview-media">`;
     }
+
+    const dgPhoto = parametres.find(p => p.cle === 'dg_photo');
+    const dgPreview = document.getElementById('dgPhotoCurrentPreview');
+    if (dgPhoto) {
+      dgPreview.innerHTML = `<img src="${dgPhoto.valeur}" alt="Photo du DG actuelle" class="ld-param-preview-media">`;
+    }
   };
 
   const enregistrerParametre = async (cle, fichier, type) => {
@@ -385,12 +391,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       .from('galerie')
       .getPublicUrl(chemin);
 
-    const { error: updateError } = await sbClient
+    // upsert : met à jour la ligne si elle existe déjà (bannière, à propos),
+    // ou la crée si c'est une toute nouvelle clé (ex. dg_photo)
+    const { error: upsertError } = await sbClient
       .from('parametres_site')
-      .update({ valeur: publicUrlData.publicUrl, type, date_modification: new Date().toISOString() })
-      .eq('cle', cle);
+      .upsert(
+        { cle, valeur: publicUrlData.publicUrl, type, date_modification: new Date().toISOString() },
+        { onConflict: 'cle' }
+      );
 
-    if (updateError) throw updateError;
+    if (upsertError) throw upsertError;
   };
 
   /* ---------- Formulaire bannière ---------- */
@@ -438,6 +448,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       await enregistrerParametre('about_image', file, type);
       feedback.textContent = 'Média mis à jour avec succès.';
+      feedback.classList.add('success');
+      e.target.reset();
+      loadParametresAdmin();
+    } catch (err) {
+      feedback.textContent = 'Erreur : ' + err.message;
+      feedback.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* ---------- Formulaire photo du DG ---------- */
+  document.getElementById('dgPhotoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('dgPhotoFeedback');
+    const submitBtn = document.getElementById('dgPhotoSubmitBtn');
+    const file = document.getElementById('dgPhotoFile').files[0];
+    if (!file) return;
+
+    feedback.textContent = 'Téléversement en cours…';
+    feedback.className = 'ld-auth-feedback';
+    submitBtn.disabled = true;
+
+    try {
+      await enregistrerParametre('dg_photo', file, 'photo');
+      feedback.textContent = 'Photo mise à jour avec succès.';
       feedback.classList.add('success');
       e.target.reset();
       loadParametresAdmin();

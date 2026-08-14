@@ -208,7 +208,7 @@
 
       <!-- ---------- Image de la section À propos ---------- -->
       <div class="col-lg-6">
-        <h2 class="ld-h3">Média de la section "À propos" (+15 ans d'expérience)</h2>
+        <h2 class="ld-h3">Média de la section "À propos" (badge année de création)</h2>
         <div class="ld-auth-card">
           <div class="mb-3">
             <p class="ld-eyebrow mb-2">Actuellement en ligne</p>
@@ -222,6 +222,27 @@
             </div>
             <button type="submit" class="btn ld-btn-primary w-100" id="aboutSubmitBtn">Remplacer</button>
             <p class="ld-auth-feedback" id="aboutFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- ---------- Photo de profil du DG ---------- -->
+      <div class="col-lg-6">
+        <h2 class="ld-h3">Photo de profil du DG</h2>
+        <div class="ld-auth-card">
+          <div class="mb-3">
+            <p class="ld-eyebrow mb-2">Actuellement en ligne</p>
+            <div id="dgPhotoCurrentPreview" class="ld-param-preview">
+              <p class="text-muted small m-0" style="padding:1rem;">Aucune photo — avatar générique affiché sur le site.</p>
+            </div>
+          </div>
+          <form id="dgPhotoForm">
+            <div class="mb-3">
+              <label class="form-label">Nouvelle photo</label>
+              <input type="file" class="form-control ld-input" id="dgPhotoFile" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn ld-btn-primary w-100" id="dgPhotoSubmitBtn">Remplacer la photo</button>
+            <p class="ld-auth-feedback" id="dgPhotoFeedback" role="status" aria-live="polite"></p>
           </form>
         </div>
       </div>
