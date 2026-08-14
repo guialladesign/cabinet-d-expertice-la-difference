@@ -38,9 +38,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  /* ---------- Image À propos ---------- */
+  /* ---------- Média À propos : photo ou vidéo ---------- */
   if (about && aboutImage) {
-    aboutImage.src = about.valeur;
+    if (about.type === 'video') {
+      const video = document.createElement('video');
+      video.className = aboutImage.className;
+      video.id = 'aboutImage';
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.src = about.valeur;
+      aboutImage.replaceWith(video);
+    } else {
+      aboutImage.src = about.valeur;
+    }
   }
 
 });

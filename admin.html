@@ -192,7 +192,7 @@
 
       <!-- ---------- Image de la section À propos ---------- -->
       <div class="col-lg-6">
-        <h2 class="ld-h3">Photo de la section "À propos" (+15 ans d'expérience)</h2>
+        <h2 class="ld-h3">Média de la section "À propos" (+15 ans d'expérience)</h2>
         <div class="ld-auth-card">
           <div class="mb-3">
             <p class="ld-eyebrow mb-2">Actuellement en ligne</p>
@@ -200,10 +200,11 @@
           </div>
           <form id="aboutForm">
             <div class="mb-3">
-              <label class="form-label">Nouvelle photo</label>
-              <input type="file" class="form-control ld-input" id="aboutFile" accept="image/*" required>
+              <label class="form-label">Nouvelle photo ou vidéo</label>
+              <input type="file" class="form-control ld-input" id="aboutFile" accept="image/*,video/*" required>
+              <small class="text-muted">Une vidéo doit rester légère (quelques Mo) pour ne pas ralentir le site.</small>
             </div>
-            <button type="submit" class="btn ld-btn-primary w-100" id="aboutSubmitBtn">Remplacer la photo</button>
+            <button type="submit" class="btn ld-btn-primary w-100" id="aboutSubmitBtn">Remplacer</button>
             <p class="ld-auth-feedback" id="aboutFeedback" role="status" aria-live="polite"></p>
           </form>
         </div>

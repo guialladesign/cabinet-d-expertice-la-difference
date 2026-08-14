@@ -321,7 +321,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const aboutPreview = document.getElementById('aboutCurrentPreview');
     if (about) {
-      aboutPreview.innerHTML = `<img src="${about.valeur}" alt="Image À propos actuelle" class="ld-param-preview-media">`;
+      aboutPreview.innerHTML = about.type === 'video'
+        ? `<video src="${about.valeur}" muted preload="metadata" class="ld-param-preview-media"></video>`
+        : `<img src="${about.valeur}" alt="Média À propos actuel" class="ld-param-preview-media">`;
     }
   };
 
@@ -386,9 +388,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     feedback.className = 'ld-auth-feedback';
     submitBtn.disabled = true;
 
+    const type = file.type.startsWith('video') ? 'video' : 'photo';
+
     try {
-      await enregistrerParametre('about_image', file, 'photo');
-      feedback.textContent = 'Photo mise à jour avec succès.';
+      await enregistrerParametre('about_image', file, type);
+      feedback.textContent = 'Média mis à jour avec succès.';
       feedback.classList.add('success');
       e.target.reset();
       loadParametresAdmin();

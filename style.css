@@ -305,11 +305,13 @@ img{ max-width: 100%; display:block; }
 .ld-value-card:hover i{ background: var(--ld-gold); color: var(--ld-green-ink); }
 
 .ld-about-media{ position: relative; }
-.ld-about-media img{
+.ld-about-media img,
+.ld-about-media video{
   border-radius: var(--ld-radius);
   box-shadow: var(--ld-shadow);
   aspect-ratio: 4/3.4;
   object-fit: cover;
+  width: 100%;
 }
 .ld-about-badge{
   position: absolute;
