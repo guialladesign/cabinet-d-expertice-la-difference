@@ -73,6 +73,67 @@
 
     <div class="row g-5 mt-2">
 
+      <!-- ---------- Gestion des formations ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Formations</h2>
+
+        <form class="ld-auth-card mb-4" id="formationForm">
+          <input type="hidden" id="formationId" value="">
+          <div class="row g-3">
+            <div class="col-sm-3">
+              <label class="form-label">Code</label>
+              <input type="text" class="form-control ld-input" id="formationCode" placeholder="Ex : PMA-12" required>
+            </div>
+            <div class="col-sm-9">
+              <label class="form-label">Titre</label>
+              <input type="text" class="form-control ld-input" id="formationTitre" required>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">Lieu</label>
+              <input type="text" class="form-control ld-input" id="formationLieu" required>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">Date de début</label>
+              <input type="date" class="form-control ld-input" id="formationDateDebut" required>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">Date de fin</label>
+              <input type="date" class="form-control ld-input" id="formationDateFin" required>
+            </div>
+            <div class="col-sm-4 d-flex align-items-center">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="formationActif" checked>
+                <label class="form-check-label" for="formationActif">Visible sur le site</label>
+              </div>
+            </div>
+            <div class="col-sm-8 d-flex align-items-end gap-2">
+              <button type="submit" class="btn ld-btn-primary" id="formationSubmitBtn">Ajouter la formation</button>
+              <button type="button" class="btn ld-btn-outline-dark" id="formationCancelBtn" hidden>Annuler la modification</button>
+            </div>
+          </div>
+          <p class="ld-auth-feedback" id="formationFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="table-responsive ld-table-wrap">
+          <table class="table ld-table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Titre</th>
+                <th>Lieu</th>
+                <th>Dates</th>
+                <th>Statut</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="formationsAdminTableBody">
+              <!-- rempli dynamiquement -->
+            </tbody>
+          </table>
+        </div>
+        <p class="ld-empty-state" id="formationsAdminEmpty" hidden>Aucune formation pour le moment.</p>
+      </div>
+
       <!-- ---------- Inscriptions à traiter ---------- -->
       <div class="col-12" id="printArea">
         <div class="ld-inscriptions-toolbar">

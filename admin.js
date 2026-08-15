@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   /* ---------- Chargement du tableau de bord ---------- */
   const loadDashboard = async () => {
     await Promise.all([
+      loadFormationsAdmin(),
       loadInscriptions(),
       loadParticipantsAndFormationsOptions(),
       loadGalerieAdmin(),
@@ -483,6 +484,127 @@ document.addEventListener('DOMContentLoaded', async () => {
     } finally {
       submitBtn.disabled = false;
     }
+  });
+
+  /* =========================================================
+     GESTION DES FORMATIONS (ajout, modification, suppression)
+     ========================================================= */
+
+  const loadFormationsAdmin = async () => {
+    const tbody = document.getElementById('formationsAdminTableBody');
+    const empty = document.getElementById('formationsAdminEmpty');
+    tbody.innerHTML = '';
+
+    const { data: formations, error } = await sbClient
+      .from('formations')
+      .select('id, code, titre, lieu, date_debut, date_fin, actif')
+      .order('date_debut', { ascending: true });
+
+    if (error || !formations || formations.length === 0) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    formations.forEach(f => {
+      const tr = document.createElement('tr');
+      const statutLabel = f.actif
+        ? '<span class="ld-badge ld-badge-success">Visible</span>'
+        : '<span class="ld-badge ld-badge-muted">Masquée</span>';
+
+      tr.innerHTML = `
+        <td><span class="ld-code">${f.code}</span></td>
+        <td>${f.titre}</td>
+        <td>${f.lieu}</td>
+        <td>${formatDateCourte(f.date_debut)} – ${formatDateCourte(f.date_fin)}</td>
+        <td>${statutLabel}</td>
+        <td class="text-end">
+          <button class="btn ld-btn-mini ld-edit-formation" data-id="${f.id}" type="button">Modifier</button>
+          <button class="btn ld-btn-mini ld-delete-formation" data-id="${f.id}" type="button">Supprimer</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.querySelectorAll('.ld-edit-formation').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = formations.find(x => x.id === btn.dataset.id);
+        if (!f) return;
+
+        document.getElementById('formationId').value = f.id;
+        document.getElementById('formationCode').value = f.code;
+        document.getElementById('formationTitre').value = f.titre;
+        document.getElementById('formationLieu').value = f.lieu;
+        document.getElementById('formationDateDebut').value = f.date_debut;
+        document.getElementById('formationDateFin').value = f.date_fin;
+        document.getElementById('formationActif').checked = f.actif;
+
+        document.getElementById('formationSubmitBtn').textContent = 'Mettre à jour';
+        document.getElementById('formationCancelBtn').hidden = false;
+        document.getElementById('formationForm').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('.ld-delete-formation').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Supprimer cette formation ? Les inscriptions et attestations liées seront aussi supprimées.')) return;
+        const { error } = await sbClient.from('formations').delete().eq('id', btn.dataset.id);
+        if (!error) {
+          loadFormationsAdmin();
+          loadInscriptions();
+        }
+      });
+    });
+  };
+
+  const formatDateCourte = (dateStr) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const reinitialiserFormulaireFormation = () => {
+    document.getElementById('formationForm').reset();
+    document.getElementById('formationId').value = '';
+    document.getElementById('formationActif').checked = true;
+    document.getElementById('formationSubmitBtn').textContent = 'Ajouter la formation';
+    document.getElementById('formationCancelBtn').hidden = true;
+  };
+
+  document.getElementById('formationCancelBtn').addEventListener('click', reinitialiserFormulaireFormation);
+
+  document.getElementById('formationForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('formationFeedback');
+    feedback.textContent = 'Enregistrement…';
+    feedback.className = 'ld-auth-feedback';
+
+    const id = document.getElementById('formationId').value;
+    const donnees = {
+      code: document.getElementById('formationCode').value.trim(),
+      titre: document.getElementById('formationTitre').value.trim(),
+      lieu: document.getElementById('formationLieu').value.trim(),
+      date_debut: document.getElementById('formationDateDebut').value,
+      date_fin: document.getElementById('formationDateFin').value,
+      actif: document.getElementById('formationActif').checked
+    };
+
+    const requete = id
+      ? sbClient.from('formations').update(donnees).eq('id', id)
+      : sbClient.from('formations').insert(donnees);
+
+    const { error } = await requete;
+
+    if (error) {
+      feedback.textContent = 'Erreur : ' + error.message;
+      feedback.classList.add('error');
+      return;
+    }
+
+    feedback.textContent = id ? 'Formation mise à jour.' : 'Formation ajoutée.';
+    feedback.classList.add('success');
+    reinitialiserFormulaireFormation();
+    loadFormationsAdmin();
   });
 
   /* =========================================================

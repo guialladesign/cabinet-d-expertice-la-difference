@@ -215,52 +215,14 @@
             <th class="text-end">Inscription</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><span class="ld-code">PMA-11</span></td>
-            <td>Processus de management</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>08 – 09 sept. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=PMA-11" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
-          <tr>
-            <td><span class="ld-code">CGC-9</span></td>
-            <td>Cycles de gestion des connaissances</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>15 – 17 sept. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=CGC-9" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
-          <tr>
-            <td><span class="ld-code">SEE-2</span></td>
-            <td>Suivi-Évaluation Redevabilité et Apprentissage (SERA)</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>23 – 25 sept. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=SEE-2" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
-          <tr>
-            <td><span class="ld-code">TRIE-15</span></td>
-            <td>Trouvez votre idée d'entreprise</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>07 – 08 oct. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=TRIE-15" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
-          <tr>
-            <td><span class="ld-code">CREE-16</span></td>
-            <td>Créez votre entreprise</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>14 – 15 oct. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=CREE-16" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
-          <tr>
-            <td><span class="ld-code">TEPV-18</span></td>
-            <td>Techniques efficaces de prospection et de vente</td>
-            <td><i class="fa-solid fa-location-dot"></i> Ouagadougou</td>
-            <td>23 – 24 oct. 2026</td>
-            <td class="text-end"><a href="compte.html?formation=TEPV-18" class="btn ld-btn-mini">S'inscrire</a></td>
-          </tr>
+        <tbody id="formationsTableBody">
+          <!-- Rempli automatiquement depuis les formations ajoutées en admin -->
         </tbody>
       </table>
     </div>
+    <p class="ld-empty-state" id="formationsEmpty" hidden>
+      Aucune formation programmée pour le moment. Revenez bientôt !
+    </p>
   </div>
 </section>
 
@@ -525,5 +487,6 @@
 <script src="script.js"></script>
 <script src="galerie.js"></script>
 <script src="parametres.js"></script>
+<script src="formations.js"></script>
 </body>
 </html>
