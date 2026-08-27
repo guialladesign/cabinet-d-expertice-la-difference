@@ -480,6 +480,13 @@ img{ max-width: 100%; display:block; }
 }
 
 /* ---------- Galerie : carte vidéo ---------- */
+.ld-gallery-caption{
+  margin: .6rem 0 0;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--ld-green-ink);
+  text-align: center;
+}
 .ld-gallery-card-video{ position: relative; }
 .ld-play-btn{
   position: absolute;
