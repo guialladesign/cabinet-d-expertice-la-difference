@@ -12,9 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const labels = {
     formations: 'Formation',
-    seminaires: 'Séminaire',
-    ateliers: 'Atelier',
-    accompagnement: 'Accompagnement'
+    conseils_assistance: 'Conseils-Assistance',
+    etudes_socio_eco: 'Études socio-économiques'
   };
 
   const { data: medias, error } = await sbClient
@@ -43,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ${mediaHtml}
         <div class="ld-gallery-overlay"><span>${legende}</span></div>
       </div>
+      <p class="ld-gallery-caption">${legende}</p>
     `;
     container.appendChild(col);
   });

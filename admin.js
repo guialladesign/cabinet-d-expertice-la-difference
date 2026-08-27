@@ -257,6 +257,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     empty.hidden = true;
 
+    const LABELS_CATEGORIE = {
+      formations: 'Formations',
+      conseils_assistance: 'Conseils-Assistance',
+      etudes_socio_eco: 'Études socio-économiques'
+    };
+
     medias.forEach(m => {
       const col = document.createElement('div');
       col.className = 'col-6 col-lg-3';
@@ -264,16 +270,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         ? `<video src="${m.fichier_url}" muted preload="metadata" class="ld-admin-media-preview"></video>`
         : `<img src="${m.fichier_url}" alt="${m.legende || ''}" class="ld-admin-media-preview">`;
 
+      const optionsHtml = Object.entries(LABELS_CATEGORIE)
+        .map(([val, label]) => `<option value="${val}" ${m.categorie === val ? 'selected' : ''}>${label}</option>`)
+        .join('');
+
       col.innerHTML = `
         <div class="ld-admin-media-card">
           ${previewHtml}
-          <p class="ld-admin-media-cat">${m.categorie}</p>
-          <button class="btn ld-btn-mini ld-delete-media" data-id="${m.id}" type="button">
-            <i class="fa-solid fa-trash"></i> Supprimer
-          </button>
+          <input type="text" class="form-control form-control-sm ld-input ld-media-titre-input mb-2" data-id="${m.id}" value="${(m.legende || '').replace(/"/g, '&quot;')}" placeholder="Titre de la photo">
+          <select class="form-select form-select-sm ld-input ld-media-categorie-select mb-2" data-id="${m.id}">
+            ${optionsHtml}
+          </select>
+          <div class="d-flex gap-1 justify-content-center">
+            <button class="btn ld-btn-mini ld-save-media-categorie" data-id="${m.id}" type="button">Enregistrer</button>
+            <button class="btn ld-btn-mini ld-delete-media" data-id="${m.id}" type="button">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       `;
       list.appendChild(col);
+    });
+
+    document.querySelectorAll('.ld-save-media-categorie').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const select = document.querySelector(`.ld-media-categorie-select[data-id="${id}"]`);
+        const titreInput = document.querySelector(`.ld-media-titre-input[data-id="${id}"]`);
+        btn.textContent = '...';
+        const { error } = await sbClient
+          .from('galerie')
+          .update({ categorie: select.value, legende: titreInput.value.trim() })
+          .eq('id', id);
+        btn.textContent = error ? 'Erreur' : 'Enregistré ✓';
+        setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
+      });
     });
 
     document.querySelectorAll('.ld-delete-media').forEach(btn => {
