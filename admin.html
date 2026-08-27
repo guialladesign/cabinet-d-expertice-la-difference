@@ -297,9 +297,56 @@
         </div>
       </div>
 
+      <!-- ---------- Actualités (carrousel accueil) ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Actualités (carrousel de la page d'accueil)</h2>
+
+        <form class="ld-auth-card mb-4" id="actualiteForm">
+          <input type="hidden" id="actualiteId" value="">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Image</label>
+              <input type="file" class="form-control ld-input" id="actualiteFile" accept="image/*">
+              <small class="text-muted">Obligatoire pour une nouvelle actualité. Laissez vide pour garder l'image actuelle lors d'une modification.</small>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Titre</label>
+              <input type="text" class="form-control ld-input" id="actualiteTitre" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Extrait (courte description)</label>
+              <textarea class="form-control ld-input" id="actualiteExtrait" rows="2"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Lien "En savoir plus" (optionnel)</label>
+              <input type="url" class="form-control ld-input" id="actualiteLien" placeholder="https://...">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Date de publication</label>
+              <input type="date" class="form-control ld-input" id="actualiteDate">
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="actualiteActif" checked>
+                <label class="form-check-label" for="actualiteActif">Visible sur le site</label>
+              </div>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn ld-btn-primary" id="actualiteSubmitBtn">Ajouter l'actualité</button>
+              <button type="button" class="btn ld-btn-outline-dark" id="actualiteCancelBtn" hidden>Annuler la modification</button>
+            </div>
+          </div>
+          <p class="ld-auth-feedback" id="actualiteFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="row g-3" id="actualitesAdminList"></div>
+        <p class="ld-empty-state" id="actualitesAdminEmpty" hidden>Aucune actualité pour le moment.</p>
+      </div>
+
     </div>
   </div>
 </section>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>

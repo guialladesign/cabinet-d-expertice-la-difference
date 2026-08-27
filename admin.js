@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       loadInscriptions(),
       loadParticipantsAndFormationsOptions(),
       loadGalerieAdmin(),
-      loadParametresAdmin()
+      loadParametresAdmin(),
+      loadActualitesAdmin()
     ]);
   };
 
@@ -679,6 +680,138 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('exportPdfBtn').addEventListener('click', () => {
     window.print();
+  });
+
+  /* =========================================================
+     GESTION DES ACTUALITÉS (carrousel de la page d'accueil)
+     ========================================================= */
+
+  const loadActualitesAdmin = async () => {
+    const list = document.getElementById('actualitesAdminList');
+    const empty = document.getElementById('actualitesAdminEmpty');
+    list.innerHTML = '';
+
+    const { data: actualites, error } = await sbClient
+      .from('actualites')
+      .select('id, titre, extrait, image_url, lien_externe, actif, date_publication')
+      .order('date_publication', { ascending: false });
+
+    if (error || !actualites || actualites.length === 0) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    actualites.forEach(a => {
+      const col = document.createElement('div');
+      col.className = 'col-6 col-lg-3';
+      const statutLabel = a.actif
+        ? '<span class="ld-badge ld-badge-success">Visible</span>'
+        : '<span class="ld-badge ld-badge-muted">Masquée</span>';
+
+      col.innerHTML = `
+        <div class="ld-admin-media-card">
+          <img src="${a.image_url}" alt="${a.titre}" class="ld-admin-media-preview">
+          <p class="ld-admin-media-cat">${a.titre}</p>
+          <p class="mb-2">${statutLabel}</p>
+          <div class="d-flex gap-1 justify-content-center">
+            <button class="btn ld-btn-mini ld-edit-actualite" data-id="${a.id}" type="button">Modifier</button>
+            <button class="btn ld-btn-mini ld-delete-actualite" data-id="${a.id}" type="button">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      list.appendChild(col);
+    });
+
+    document.querySelectorAll('.ld-edit-actualite').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const a = actualites.find(x => x.id === btn.dataset.id);
+        if (!a) return;
+
+        document.getElementById('actualiteId').value = a.id;
+        document.getElementById('actualiteTitre').value = a.titre;
+        document.getElementById('actualiteExtrait').value = a.extrait || '';
+        document.getElementById('actualiteLien').value = a.lien_externe || '';
+        document.getElementById('actualiteDate').value = a.date_publication;
+        document.getElementById('actualiteActif').checked = a.actif;
+        document.getElementById('actualiteFile').required = false;
+
+        document.getElementById('actualiteSubmitBtn').textContent = 'Mettre à jour';
+        document.getElementById('actualiteCancelBtn').hidden = false;
+        document.getElementById('actualiteForm').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('.ld-delete-actualite').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Supprimer cette actualité ?')) return;
+        const { error } = await sbClient.from('actualites').delete().eq('id', btn.dataset.id);
+        if (!error) loadActualitesAdmin();
+      });
+    });
+  };
+
+  const reinitialiserFormulaireActualite = () => {
+    document.getElementById('actualiteForm').reset();
+    document.getElementById('actualiteId').value = '';
+    document.getElementById('actualiteActif').checked = true;
+    document.getElementById('actualiteFile').required = true;
+    document.getElementById('actualiteSubmitBtn').textContent = 'Ajouter l\'actualité';
+    document.getElementById('actualiteCancelBtn').hidden = true;
+  };
+
+  document.getElementById('actualiteCancelBtn').addEventListener('click', reinitialiserFormulaireActualite);
+  document.getElementById('actualiteFile').required = true;
+
+  document.getElementById('actualiteForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('actualiteFeedback');
+    const submitBtn = document.getElementById('actualiteSubmitBtn');
+    feedback.textContent = 'Enregistrement…';
+    feedback.className = 'ld-auth-feedback';
+    submitBtn.disabled = true;
+
+    const id = document.getElementById('actualiteId').value;
+    const fichier = document.getElementById('actualiteFile').files[0];
+
+    const donnees = {
+      titre: document.getElementById('actualiteTitre').value.trim(),
+      extrait: document.getElementById('actualiteExtrait').value.trim(),
+      lien_externe: document.getElementById('actualiteLien').value.trim() || null,
+      date_publication: document.getElementById('actualiteDate').value || new Date().toISOString().slice(0, 10),
+      actif: document.getElementById('actualiteActif').checked
+    };
+
+    try {
+      if (fichier) {
+        const chemin = `actualites/${Date.now()}-${fichier.name.replace(/\s+/g, '-')}`;
+        const { error: uploadError } = await sbClient.storage.from('galerie').upload(chemin, fichier);
+        if (uploadError) throw uploadError;
+        const { data: publicUrlData } = sbClient.storage.from('galerie').getPublicUrl(chemin);
+        donnees.image_url = publicUrlData.publicUrl;
+      }
+
+      if (id) {
+        const { error } = await sbClient.from('actualites').update(donnees).eq('id', id);
+        if (error) throw error;
+      } else {
+        if (!fichier) throw new Error('Une image est requise pour une nouvelle actualité.');
+        const { error } = await sbClient.from('actualites').insert(donnees);
+        if (error) throw error;
+      }
+
+      feedback.textContent = id ? 'Actualité mise à jour.' : 'Actualité ajoutée.';
+      feedback.classList.add('success');
+      reinitialiserFormulaireActualite();
+      loadActualitesAdmin();
+    } catch (err) {
+      feedback.textContent = 'Erreur : ' + err.message;
+      feedback.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 
   /* ---------- Démarrage ---------- */
