@@ -10,27 +10,22 @@
 <meta property="og:description" content="Partager le secret de la réussite, notre mission.">
 <meta property="og:type" content="website">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-<!-- Bootstrap 5 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-<!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ================= PRELOADER / PROGRESS BAR ================= -->
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg ld-navbar sticky-top" id="mainNav">
   <div class="container">
-    <a class="navbar-brand ld-brand" href="#accueil">
+    <a class="navbar-brand ld-brand" href="index.html">
       <img src="images/logo.png" alt="Cabinet d'Expertise La Différence" class="ld-logo-img">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Ouvrir le menu">
@@ -38,23 +33,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-        <li class="nav-item"><a class="nav-link" href="#accueil">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#apropos">À propos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#formations">Programmes en Cours</a></li>
-        <li class="nav-item"><a class="nav-link" href="#galerie">Galerie</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="apropos.html">À propos</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="formations.html">Programmes en Cours</a></li>
+        <li class="nav-item"><a class="nav-link" href="galerie.html">Galerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item"><a class="nav-link" href="profil-dg.html">Profil</a></li>
         <li class="nav-item"><a class="nav-link" href="compte.html">Mon espace</a></li>
         <li class="nav-item ms-lg-2">
-          <a class="btn ld-btn-primary btn-sm" href="#contact">Nous contacter</a>
+          <a class="btn ld-btn-primary btn-sm" href="contact.html">Nous contacter</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- ================= HERO ================= -->
 <header class="ld-hero" id="accueil">
   <div class="ld-hero-bg" id="heroMedia" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80');"></div>
   <div class="ld-hero-overlay"></div>
@@ -67,8 +61,8 @@
         <p class="ld-hero-sub" data-aos>Votre partenaire en formation, accompagnement et développement des compétences.</p>
         <p class="ld-hero-slogan" data-aos>« Partager le secret de la réussite, notre mission. »</p>
         <div class="ld-hero-actions" data-aos>
-          <a href="#formations" class="btn ld-btn-primary btn-lg">Voir les formations</a>
-          <a href="#contact" class="btn ld-btn-outline btn-lg">Nous contacter</a>
+          <a href="formations.html" class="btn ld-btn-primary btn-lg">Voir les formations</a>
+          <a href="contact.html" class="btn ld-btn-outline btn-lg">Nous contacter</a>
         </div>
       </div>
 
@@ -92,12 +86,13 @@
     </div>
   </div>
 
-  <a href="#apropos" class="ld-scroll-cue" aria-label="Défiler vers le bas">
+  <a href="#actualites" class="ld-scroll-cue" aria-label="Défiler vers le bas">
     <i class="fa-solid fa-chevron-down"></i>
   </a>
 </header>
 
 <!-- ================= ACTUALITÉS (carrousel) ================= -->
+
 <section class="ld-actus-section" id="actualites">
   <div class="container-fluid px-0" id="actualitesWrapper" hidden>
     <div id="actualitesCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -116,157 +111,7 @@
 </section>
 
 <!-- ================= À PROPOS ================= -->
-<section class="ld-section" id="apropos">
-  <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6">
-        <p class="ld-eyebrow">Qui sommes-nous ?</p>
-        <h2 class="ld-h2">Une structure au service de l'excellence</h2>
-        <p class="ld-lead">
-          Créé en 2014, le Cabinet d'Expertise La Différence est spécialisé dans les formations,
-          les appuis-conseils et les études socio-économiques.
-        </p>
-        <p class="ld-lead">
-          Notre mission est d'accompagner les organisations, institutions et communautés dans
-          le renforcement de leurs capacités et la prise de décisions éclairées.
-        </p>
 
-        <div class="row g-3 mt-3">
-          <div class="col-6">
-            <div class="ld-value-card"><i class="fa-solid fa-scale-balanced"></i><span>Transparence</span></div>
-          </div>
-          <div class="col-6">
-            <div class="ld-value-card"><i class="fa-solid fa-handshake"></i><span>Intégrité</span></div>
-          </div>
-          <div class="col-6">
-            <div class="ld-value-card"><i class="fa-solid fa-people-arrows"></i><span>Partenariat</span></div>
-          </div>
-          <div class="col-6">
-            <div class="ld-value-card"><i class="fa-solid fa-medal"></i><span>Qualité</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6">
-        <div class="ld-about-media">
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80" alt="Séance d'accompagnement professionnel" id="aboutImage">
-          <div class="ld-about-badge">
-            <strong>2014</strong>
-            <span>année de création du Cabinet</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ---------- Clients & bénéficiaires ---------- -->
-    <div class="row mt-5 pt-3">
-      <div class="col-12">
-        <p class="ld-eyebrow text-center">Nos clients & bénéficiaires</p>
-        <div class="ld-clients-row">
-          <div class="ld-client-chip"><i class="fa-solid fa-building"></i><span>Entreprises privées</span></div>
-          <div class="ld-client-chip"><i class="fa-solid fa-landmark"></i><span>Institutions publiques</span></div>
-          <div class="ld-client-chip"><i class="fa-solid fa-people-group"></i><span>ONG et associations</span></div>
-          <div class="ld-client-chip"><i class="fa-solid fa-city"></i><span>Collectivités locales</span></div>
-          <div class="ld-client-chip"><i class="fa-solid fa-user"></i><span>Personnes physiques</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= SERVICES ================= -->
-<section class="ld-section ld-section-alt" id="services">
-  <div class="container">
-    <p class="ld-eyebrow text-center">Nos services</p>
-    <h2 class="ld-h2 text-center">Nos domaines d'intervention</h2>
-    <p class="ld-lead text-center ld-lead-narrow">
-      Trois domaines d'intervention complémentaires, de la formation à l'analyse,
-      pour accompagner durablement particuliers, associations, ONG, entreprises et institutions.
-    </p>
-
-    <div class="row g-4 mt-3 justify-content-center">
-      <div class="col-md-6 col-lg-4">
-        <div class="ld-service-card">
-          <span class="ld-service-num">01</span>
-          <i class="fa-solid fa-chalkboard-user"></i>
-          <h3>Formations</h3>
-          <p>Sessions pratiques de renforcement des capacités et développement des compétences.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="ld-service-card">
-          <span class="ld-service-num">02</span>
-          <i class="fa-solid fa-people-group"></i>
-          <h3>Conseils-Assistance</h3>
-          <p>Appui-conseil et accompagnement continu pour particuliers, associations, ONG et institutions.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="ld-service-card">
-          <span class="ld-service-num">03</span>
-          <i class="fa-solid fa-magnifying-glass-chart"></i>
-          <h3>Études socio-économiques</h3>
-          <p>Études de terrain et analyses pour éclairer vos décisions et vos projets.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CALENDRIER DES FORMATIONS ================= -->
-<section class="ld-section" id="formations">
-  <div class="container">
-    <p class="ld-eyebrow text-center">Calendrier</p>
-    <h2 class="ld-h2 text-center">Prochaines formations</h2>
-    <p class="ld-lead text-center ld-lead-narrow">
-      Inscrivez-vous aux prochaines sessions organisées à Ouagadougou et à Kaya.
-    </p>
-
-    <div class="table-responsive ld-table-wrap mt-4">
-      <table class="table ld-table align-middle">
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Formation</th>
-            <th>Lieu</th>
-            <th>Date</th>
-            <th class="text-end">Inscription</th>
-          </tr>
-        </thead>
-        <tbody id="formationsTableBody">
-          <!-- Rempli automatiquement depuis les formations ajoutées en admin -->
-        </tbody>
-      </table>
-    </div>
-    <p class="ld-empty-state" id="formationsEmpty" hidden>
-      Aucune formation programmée pour le moment. Revenez bientôt !
-    </p>
-  </div>
-</section>
-
-<!-- ================= GALERIE ================= -->
-<section class="ld-section ld-section-alt" id="galerie">
-  <div class="container">
-    <p class="ld-eyebrow text-center">Galerie</p>
-    <h2 class="ld-h2 text-center">Nos activités en images</h2>
-
-    <div class="ld-filters text-center mt-3 mb-4">
-      <button class="ld-filter-btn active" data-filter="all">Tout</button>
-      <button class="ld-filter-btn" data-filter="formations">Formations</button>
-      <button class="ld-filter-btn" data-filter="conseils_assistance">Conseils-Assistance</button>
-      <button class="ld-filter-btn" data-filter="etudes_socio_eco">Études socio-économiques</button>
-    </div>
-
-    <div class="row g-3 ld-gallery" id="galleryContainer">
-      <!-- Rempli automatiquement depuis la galerie ajoutée en admin -->
-    </div>
-    <p class="ld-empty-state" id="galleryEmpty" hidden>
-      La galerie sera bientôt enrichie de nouvelles photos et vidéos.
-    </p>
-  </div>
-</section>
-
-<!-- ================= STATISTIQUES ================= -->
 <section class="ld-stats-section">
   <div class="container">
     <div class="row g-4 text-center">
@@ -323,6 +168,7 @@
 </section>
 
 <!-- ================= TÉMOIGNAGES ================= -->
+
 <section class="ld-section" id="temoignages">
   <div class="container">
     <p class="ld-eyebrow text-center">Témoignages</p>
@@ -373,73 +219,6 @@
 </section>
 
 <!-- ================= CONTACT ================= -->
-<section class="ld-section ld-section-alt" id="contact">
-  <div class="container">
-    <p class="ld-eyebrow text-center">Contact</p>
-    <h2 class="ld-h2 text-center">Parlons de votre projet</h2>
-
-    <div class="row g-5 mt-3">
-      <div class="col-lg-5">
-        <div class="ld-contact-info">
-          <div class="ld-contact-item">
-            <i class="fa-solid fa-phone"></i>
-            <div>
-              <strong>Téléphone</strong>
-              <p>(+226) 52 82 87 40<br>(+226) 06 63 51 42</p>
-            </div>
-          </div>
-          <div class="ld-contact-item">
-            <i class="fa-solid fa-envelope"></i>
-            <div>
-              <strong>Email</strong>
-              <p>ladifferencebf80@gmail.com</p>
-            </div>
-          </div>
-          <div class="ld-contact-item">
-            <i class="fa-solid fa-location-dot"></i>
-            <div>
-              <strong>Villes</strong>
-              <p>Kaya &amp; Ouagadougou, Burkina Faso</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-7">
-        <form class="ld-form" id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="contact">
-          <p class="ld-hidden-field" aria-hidden="true">
-            <label>Ne pas remplir si vous êtes humain : <input name="bot-field"></label>
-          </p>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="nom">Nom</label>
-              <input type="text" class="form-control ld-input" id="nom" name="nom" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="telephone">Téléphone</label>
-              <input type="tel" class="form-control ld-input" id="telephone" name="telephone" required>
-            </div>
-            <div class="col-12">
-              <label class="form-label" for="email">Email</label>
-              <input type="email" class="form-control ld-input" id="email" name="email" required>
-            </div>
-            <div class="col-12">
-              <label class="form-label" for="message">Message</label>
-              <textarea class="form-control ld-input" id="message" name="message" rows="4" required></textarea>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn ld-btn-primary btn-lg w-100">Envoyer</button>
-            </div>
-            <div class="col-12">
-              <p class="ld-form-feedback" id="formFeedback" role="status" aria-live="polite"></p>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ================= MODALE VIDÉO GALERIE ================= -->
 <div class="ld-video-modal" id="videoModal" aria-hidden="true">
@@ -460,11 +239,12 @@
 </a>
 
 <!-- ================= FOOTER ================= -->
+
 <footer class="ld-footer">
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-4">
-        <a class="ld-brand ld-footer-brand" href="#accueil">
+        <a class="ld-brand ld-footer-brand" href="index.html">
           <span class="ld-footer-logo-chip"><img src="images/logo.png" alt="Cabinet d'Expertise La Différence" class="ld-logo-img"></span>
         </a>
         <p class="ld-footer-slogan">Partager le secret de la réussite, notre mission.</p>
@@ -473,12 +253,12 @@
       <div class="col-lg-4">
         <h4>Liens rapides</h4>
         <ul class="ld-footer-links">
-          <li><a href="#accueil">Accueil</a></li>
-          <li><a href="#apropos">À propos</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#formations">Programmes en Cours</a></li>
-          <li><a href="#galerie">Galerie</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="formations.html">Programmes en Cours</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
 
@@ -497,14 +277,11 @@
   </div>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
-<script src="galerie.js"></script>
 <script src="parametres.js"></script>
-<script src="formations.js"></script>
 <script src="actualites.js"></script>
 </body>
 </html>
