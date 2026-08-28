@@ -142,23 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Formulaire d'inscription rapide (sans compte) ---------- */
-  guestForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const feedback = document.getElementById('guestFeedback');
-    feedback.textContent = 'Inscription en cours…';
-    feedback.className = 'ld-auth-feedback';
-
-    const nom = document.getElementById('guestNom').value.trim();
-    const telephone = document.getElementById('guestTelephone').value.trim();
-    const email = document.getElementById('guestEmail').value.trim();
-
-    if (!formationCode) {
-      feedback.textContent = "Aucune formation sélectionnée. Merci de repartir du calendrier des formations.";
-      feedback.classList.add('error');
-      return;
-    }
-
-    try {
+ 
       // Crée la fiche participant "invité" (user_id reste NULL)
       const { data: participant, error: participantError } = await sbClient
         .from('participants')
