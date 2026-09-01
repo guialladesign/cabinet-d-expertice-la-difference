@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       loadParticipantsAndFormationsOptions(),
       loadGalerieAdmin(),
       loadParametresAdmin(),
-      loadActualitesAdmin()
+      loadActualitesAdmin(),
+      loadExpertsAdmin()
     ]);
   };
 
@@ -529,7 +530,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const { data: formations, error } = await sbClient
       .from('formations')
-      .select('id, code, titre, lieu, date_debut, date_fin, actif')
+      .select('id, code, titre, lieu, date_debut, date_fin, actif, type_formation')
       .order('date_debut', { ascending: true });
 
     if (error || !formations || formations.length === 0) {
@@ -570,6 +571,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('formationDateDebut').value = f.date_debut;
         document.getElementById('formationDateFin').value = f.date_fin;
         document.getElementById('formationActif').checked = f.actif;
+        document.getElementById('formationType').value = f.type_formation || 'simple';
 
         document.getElementById('formationSubmitBtn').textContent = 'Mettre à jour';
         document.getElementById('formationCancelBtn').hidden = false;
@@ -599,6 +601,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('formationForm').reset();
     document.getElementById('formationId').value = '';
     document.getElementById('formationActif').checked = true;
+    document.getElementById('formationType').value = 'simple';
     document.getElementById('formationSubmitBtn').textContent = 'Ajouter la formation';
     document.getElementById('formationCancelBtn').hidden = true;
   };
@@ -618,7 +621,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       lieu: document.getElementById('formationLieu').value.trim(),
       date_debut: document.getElementById('formationDateDebut').value,
       date_fin: document.getElementById('formationDateFin').value,
-      actif: document.getElementById('formationActif').checked
+      actif: document.getElementById('formationActif').checked,
+      type_formation: document.getElementById('formationType').value
     };
 
     const requete = id
@@ -806,6 +810,137 @@ document.addEventListener('DOMContentLoaded', async () => {
       feedback.classList.add('success');
       reinitialiserFormulaireActualite();
       loadActualitesAdmin();
+    } catch (err) {
+      feedback.textContent = 'Erreur : ' + err.message;
+      feedback.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* =========================================================
+     GESTION DES EXPERTS (page "Nos Experts")
+     ========================================================= */
+
+  const loadExpertsAdmin = async () => {
+    const list = document.getElementById('expertsAdminList');
+    const empty = document.getElementById('expertsAdminEmpty');
+    list.innerHTML = '';
+
+    const { data: experts, error } = await sbClient
+      .from('experts')
+      .select('id, nom, grade, bio, photo_url, ordre, actif')
+      .order('ordre', { ascending: true });
+
+    if (error || !experts || experts.length === 0) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    experts.forEach(ex => {
+      const col = document.createElement('div');
+      col.className = 'col-6 col-lg-3';
+      const statutLabel = ex.actif
+        ? '<span class="ld-badge ld-badge-success">Visible</span>'
+        : '<span class="ld-badge ld-badge-muted">Masqué</span>';
+      const previewHtml = ex.photo_url
+        ? `<img src="${ex.photo_url}" alt="${ex.nom}" class="ld-admin-media-preview">`
+        : `<div class="ld-admin-media-preview d-flex align-items-center justify-content-center"><i class="fa-solid fa-user-tie" style="font-size:2rem;color:var(--ld-text-muted);"></i></div>`;
+
+      col.innerHTML = `
+        <div class="ld-admin-media-card">
+          ${previewHtml}
+          <p class="ld-admin-media-cat">${ex.nom}</p>
+          <p class="mb-2">${statutLabel}</p>
+          <div class="d-flex gap-1 justify-content-center">
+            <button class="btn ld-btn-mini ld-edit-expert" data-id="${ex.id}" type="button">Modifier</button>
+            <button class="btn ld-btn-mini ld-delete-expert" data-id="${ex.id}" type="button">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      list.appendChild(col);
+    });
+
+    document.querySelectorAll('.ld-edit-expert').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const ex = experts.find(x => x.id === btn.dataset.id);
+        if (!ex) return;
+
+        document.getElementById('expertId').value = ex.id;
+        document.getElementById('expertNom').value = ex.nom;
+        document.getElementById('expertGrade').value = ex.grade || '';
+        document.getElementById('expertBio').value = ex.bio || '';
+        document.getElementById('expertOrdre').value = ex.ordre || 0;
+        document.getElementById('expertActif').checked = ex.actif;
+
+        document.getElementById('expertSubmitBtn').textContent = 'Mettre à jour';
+        document.getElementById('expertCancelBtn').hidden = false;
+        document.getElementById('expertForm').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('.ld-delete-expert').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Supprimer ce profil d\'expert ?')) return;
+        const { error } = await sbClient.from('experts').delete().eq('id', btn.dataset.id);
+        if (!error) loadExpertsAdmin();
+      });
+    });
+  };
+
+  const reinitialiserFormulaireExpert = () => {
+    document.getElementById('expertForm').reset();
+    document.getElementById('expertId').value = '';
+    document.getElementById('expertActif').checked = true;
+    document.getElementById('expertSubmitBtn').textContent = 'Ajouter l\'expert';
+    document.getElementById('expertCancelBtn').hidden = true;
+  };
+
+  document.getElementById('expertCancelBtn').addEventListener('click', reinitialiserFormulaireExpert);
+
+  document.getElementById('expertForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('expertFeedback');
+    const submitBtn = document.getElementById('expertSubmitBtn');
+    feedback.textContent = 'Enregistrement…';
+    feedback.className = 'ld-auth-feedback';
+    submitBtn.disabled = true;
+
+    const id = document.getElementById('expertId').value;
+    const fichier = document.getElementById('expertFile').files[0];
+
+    const donnees = {
+      nom: document.getElementById('expertNom').value.trim(),
+      grade: document.getElementById('expertGrade').value.trim(),
+      bio: document.getElementById('expertBio').value.trim(),
+      ordre: parseInt(document.getElementById('expertOrdre').value, 10) || 0,
+      actif: document.getElementById('expertActif').checked
+    };
+
+    try {
+      if (fichier) {
+        const chemin = `experts/${Date.now()}-${fichier.name.replace(/\s+/g, '-')}`;
+        const { error: uploadError } = await sbClient.storage.from('galerie').upload(chemin, fichier);
+        if (uploadError) throw uploadError;
+        const { data: publicUrlData } = sbClient.storage.from('galerie').getPublicUrl(chemin);
+        donnees.photo_url = publicUrlData.publicUrl;
+      }
+
+      if (id) {
+        const { error } = await sbClient.from('experts').update(donnees).eq('id', id);
+        if (error) throw error;
+      } else {
+        const { error } = await sbClient.from('experts').insert(donnees);
+        if (error) throw error;
+      }
+
+      feedback.textContent = id ? 'Expert mis à jour.' : 'Expert ajouté.';
+      feedback.classList.add('success');
+      reinitialiserFormulaireExpert();
+      loadExpertsAdmin();
     } catch (err) {
       feedback.textContent = 'Erreur : ' + err.message;
       feedback.classList.add('error');

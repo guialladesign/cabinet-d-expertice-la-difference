@@ -1,23 +1,44 @@
 /* =========================================================
    CABINET D'EXPERTISE LA DIFFÉRENCE — PROFIL-DG.JS
-   Remplace l'avatar générique par la vraie photo du DG
-   si elle a été ajoutée depuis l'espace admin.
+   Charge et affiche tous les profils d'experts depuis Supabase.
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-  const container = document.getElementById('dgPhotoContainer');
+  const container = document.getElementById('expertsContainer');
+  const empty = document.getElementById('expertsEmpty');
   if (!container) return;
 
-  const { data, error } = await sbClient
-    .from('parametres_site')
-    .select('valeur')
-    .eq('cle', 'dg_photo')
-    .maybeSingle();
+  const { data: experts, error } = await sbClient
+    .from('experts')
+    .select('id, nom, grade, bio, photo_url')
+    .eq('actif', true)
+    .order('ordre', { ascending: true });
 
-  if (error || !data) return; // Aucune photo ajoutée : on garde l'avatar générique
+  if (error || !experts || experts.length === 0) {
+    empty.hidden = false;
+    return;
+  }
 
-  container.innerHTML = `<img src="${data.valeur}" alt="Photo de BOUGMA Armel">`;
-  container.classList.add('ld-profile-avatar-photo');
+  experts.forEach(e => {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-lg-4';
+
+    const photoHtml = e.photo_url
+      ? `<img src="${e.photo_url}" alt="${e.nom}">`
+      : `<i class="fa-solid fa-user-tie"></i>`;
+
+    col.innerHTML = `
+      <div class="ld-expert-card">
+        <div class="ld-expert-avatar ${e.photo_url ? 'ld-expert-avatar-photo' : ''}">
+          ${photoHtml}
+        </div>
+        <h3 class="ld-expert-nom">${e.nom}</h3>
+        ${e.grade ? `<p class="ld-expert-grade">${e.grade}</p>` : ''}
+        ${e.bio ? `<p class="ld-expert-bio">${e.bio}</p>` : ''}
+      </div>
+    `;
+    container.appendChild(col);
+  });
 
 });

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const { data: formations, error } = await sbClient
     .from('formations')
-    .select('code, titre, lieu, date_debut, date_fin')
+    .select('code, titre, lieu, date_debut, date_fin, type_formation')
     .eq('actif', true)
     .order('date_debut', { ascending: true });
 
@@ -23,9 +23,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   formations.forEach(f => {
     const tr = document.createElement('tr');
+    const estCertifiante = f.type_formation === 'certifiante';
+    const badgeType = estCertifiante
+      ? '<span class="ld-badge ld-badge-success"><i class="fa-solid fa-certificate"></i> Certifiante</span>'
+      : '<span class="ld-badge ld-badge-muted">Attestation</span>';
+
     tr.innerHTML = `
       <td><span class="ld-code">${f.code}</span></td>
       <td>${f.titre}</td>
+      <td>${badgeType}</td>
       <td><i class="fa-solid fa-location-dot"></i> ${f.lieu}</td>
       <td>${formatPlage(f.date_debut, f.date_fin)}</td>
       <td class="text-end"><a href="compte.html?formation=${f.code}" class="btn ld-btn-mini">S'inscrire</a></td>

@@ -100,6 +100,13 @@
               <label class="form-label">Date de fin</label>
               <input type="date" class="form-control ld-input" id="formationDateFin" required>
             </div>
+            <div class="col-sm-4">
+              <label class="form-label">Type</label>
+              <select class="form-select ld-input" id="formationType">
+                <option value="simple" selected>Simple (attestation)</option>
+                <option value="certifiante">Certifiante</option>
+              </select>
+            </div>
             <div class="col-sm-4 d-flex align-items-center">
               <div class="form-check mt-4">
                 <input class="form-check-input" type="checkbox" id="formationActif" checked>
@@ -295,6 +302,51 @@
             <p class="ld-auth-feedback" id="dgPhotoFeedback" role="status" aria-live="polite"></p>
           </form>
         </div>
+      </div>
+
+      <!-- ---------- Nos Experts ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Nos Experts (profils affichés sur la page "Nos Experts")</h2>
+
+        <form class="ld-auth-card mb-4" id="expertForm">
+          <input type="hidden" id="expertId" value="">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Photo (optionnel)</label>
+              <input type="file" class="form-control ld-input" id="expertFile" accept="image/*">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nom complet</label>
+              <input type="text" class="form-control ld-input" id="expertNom" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Grade / titre</label>
+              <input type="text" class="form-control ld-input" id="expertGrade" placeholder="Ex : Expert en gestion de projet">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Ordre d'affichage</label>
+              <input type="number" class="form-control ld-input" id="expertOrdre" value="0">
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="expertActif" checked>
+                <label class="form-check-label" for="expertActif">Visible sur le site</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Bio / présentation</label>
+              <textarea class="form-control ld-input" id="expertBio" rows="2"></textarea>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn ld-btn-primary" id="expertSubmitBtn">Ajouter l'expert</button>
+              <button type="button" class="btn ld-btn-outline-dark" id="expertCancelBtn" hidden>Annuler la modification</button>
+            </div>
+          </div>
+          <p class="ld-auth-feedback" id="expertFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="row g-3" id="expertsAdminList"></div>
+        <p class="ld-empty-state" id="expertsAdminEmpty" hidden>Aucun expert pour le moment.</p>
       </div>
 
       <!-- ---------- Actualités (carrousel accueil) ---------- -->

@@ -1,8 +1,8 @@
 /* =========================================================
    CABINET D'EXPERTISE LA DIFFÉRENCE — AUTH.JS
-   Gère la connexion, la création de compte, et l'inscription
-   automatique à une formation si l'utilisateur venait du
-   bouton "S'inscrire" du calendrier.
+   Gère la connexion et la création de compte, et rattache
+   automatiquement l'utilisateur à une formation s'il venait
+   du bouton "S'inscrire" du calendrier.
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,22 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
     contextEl.hidden = false;
   }
 
-  /* ---------- Bascule entre les onglets Connexion / Création / Invité ---------- */
+  /* ---------- Bascule entre les onglets Connexion / Création ---------- */
   const tabs = document.querySelectorAll('.ld-auth-tab');
   const loginForm = document.getElementById('loginForm');
   const signupForm = document.getElementById('signupForm');
-  const guestForm = document.getElementById('guestForm');
-
-  const forms = { login: loginForm, signup: signupForm, guest: guestForm };
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      Object.entries(forms).forEach(([key, form]) => {
-        form.hidden = key !== tab.dataset.tab;
-      });
+      if (tab.dataset.tab === 'login') {
+        loginForm.hidden = false;
+        signupForm.hidden = true;
+      } else {
+        loginForm.hidden = true;
+        signupForm.hidden = false;
+      }
     });
   });
 
@@ -48,14 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const { data: { user } } = await sbClient.auth.getUser();
       if (!user) return;
 
-      // Récupère la fiche participant liée à ce compte
       const { data: participant } = await sbClient
         .from('participants')
         .select('id')
         .eq('user_id', user.id)
         .single();
 
-      // Récupère l'identifiant de la formation à partir de son code
       const { data: formation } = await sbClient
         .from('formations')
         .select('id')
@@ -106,8 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     feedback.className = 'ld-auth-feedback';
 
     const nom = document.getElementById('signupNom').value.trim();
-    const telephone = document.getElementById('signupTelephone').value.trim();
+
+    // Indicatif + numéro combinés dans un seul champ téléphone stocké en base
+    const indicatifSelect = document.getElementById('signupIndicatif');
+    const indicatif = indicatifSelect.value === 'autre' ? '' : indicatifSelect.value;
+    const numero = document.getElementById('signupTelephone').value.trim();
+    const telephone = indicatif ? `${indicatif} ${numero}` : numero;
+
     const email = document.getElementById('signupEmail').value.trim();
+    const ville = document.getElementById('signupVille').value.trim();
+    const pays = document.getElementById('signupPays').value.trim();
+    const structure = document.getElementById('signupStructure').value.trim();
     const password = document.getElementById('signupPassword').value;
 
     const { data, error } = await sbClient.auth.signUp({ email, password });
@@ -118,78 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Si la confirmation par email est activée sur Supabase, data.user existe
-    // mais la session n'est pas encore active tant que l'email n'est pas confirmé.
     if (data.user && !data.session) {
       feedback.textContent = 'Compte créé ! Vérifiez votre boîte mail pour confirmer votre adresse avant de vous connecter.';
       feedback.classList.add('success');
       return;
     }
 
-    // Crée la fiche participant liée à ce compte
     if (data.user) {
       await sbClient.from('participants').insert({
         user_id: data.user.id,
         nom,
         telephone,
-        email
+        email,
+        ville,
+        pays,
+        structure
       });
     }
 
     feedback.textContent = 'Compte créé avec succès, redirection…';
     feedback.classList.add('success');
     await inscrireSiFormationEnAttente();
-  });
-
-  /* ---------- Formulaire d'inscription rapide (sans compte) ---------- */
-  guestForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const feedback = document.getElementById('guestFeedback');
-    feedback.textContent = 'Inscription en cours…';
-    feedback.className = 'ld-auth-feedback';
-
-    const nom = document.getElementById('guestNom').value.trim();
-    const telephone = document.getElementById('guestTelephone').value.trim();
-    const email = document.getElementById('guestEmail').value.trim();
-
-    if (!formationCode) {
-      feedback.textContent = "Aucune formation sélectionnée. Merci de repartir du calendrier des formations.";
-      feedback.classList.add('error');
-      return;
-    }
-
-    try {
-      // Crée la fiche participant "invité" (user_id reste NULL)
-      const { data: participant, error: participantError } = await sbClient
-        .from('participants')
-        .insert({ nom, telephone, email })
-        .select('id')
-        .single();
-
-      if (participantError) throw participantError;
-
-      // Récupère l'identifiant de la formation à partir de son code
-      const { data: formation, error: formationError } = await sbClient
-        .from('formations')
-        .select('id')
-        .eq('code', formationCode)
-        .single();
-
-      if (formationError) throw formationError;
-
-      const { error: inscriptionError } = await sbClient
-        .from('inscriptions')
-        .insert({ participant_id: participant.id, formation_id: formation.id });
-
-      if (inscriptionError) throw inscriptionError;
-
-      feedback.textContent = `Merci ${nom} ! Votre inscription à la formation ${formationCode} a bien été enregistrée.`;
-      feedback.classList.add('success');
-      guestForm.reset();
-    } catch (err) {
-      feedback.textContent = "Erreur : " + err.message;
-      feedback.classList.add('error');
-    }
   });
 
 });

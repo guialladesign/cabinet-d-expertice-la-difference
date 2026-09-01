@@ -52,7 +52,6 @@
           <div class="ld-auth-tabs">
             <button class="ld-auth-tab active" data-tab="login" type="button">Se connecter</button>
             <button class="ld-auth-tab" data-tab="signup" type="button">Créer un compte</button>
-            <button class="ld-auth-tab" data-tab="guest" type="button">Inscription rapide</button>
           </div>
 
           <p class="ld-auth-context" id="authContext" hidden>
@@ -82,23 +81,50 @@
               <input type="text" class="form-control ld-input" id="signupNom" required>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="signupTelephone">Téléphone</label>
-              <input type="tel" class="form-control ld-input" id="signupTelephone" required>
+              <label class="form-label">Téléphone</label>
+              <div class="d-flex gap-2">
+                <select class="form-select ld-input" id="signupIndicatif" style="max-width:135px;">
+                  <option value="+226" selected>🇧🇫 +226</option>
+                  <option value="+225">🇨🇮 +225</option>
+                  <option value="+223">🇲🇱 +223</option>
+                  <option value="+227">🇳🇪 +227</option>
+                  <option value="+228">🇹🇬 +228</option>
+                  <option value="+229">🇧🇯 +229</option>
+                  <option value="+221">🇸🇳 +221</option>
+                  <option value="+233">🇬🇭 +233</option>
+                  <option value="+234">🇳🇬 +234</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+1">🇺🇸/🇨🇦 +1</option>
+                  <option value="autre">Autre…</option>
+                </select>
+                <input type="tel" class="form-control ld-input" id="signupTelephone" placeholder="70 12 34 56" required>
+              </div>
             </div>
             <div class="mb-3">
               <label class="form-label" for="signupEmail">Email</label>
               <input type="email" class="form-control ld-input" id="signupEmail" required>
             </div>
-            <div class="mb-3">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label" for="signupVille">Ville</label>
+                <input type="text" class="form-control ld-input" id="signupVille">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="signupPays">Pays</label>
+                <input type="text" class="form-control ld-input" id="signupPays" value="Burkina Faso">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="signupStructure">Structure</label>
+                <input type="text" class="form-control ld-input" id="signupStructure" placeholder="Employeur, ONG...">
+              </div>
+            </div>
+            <div class="mb-3 mt-3">
               <label class="form-label" for="signupPassword">Mot de passe (6 caractères min.)</label>
               <input type="password" class="form-control ld-input" id="signupPassword" required minlength="6">
             </div>
             <button type="submit" class="btn ld-btn-primary btn-lg w-100">Créer mon compte</button>
             <p class="ld-auth-feedback" id="signupFeedback" role="status" aria-live="polite"></p>
           </form>
-
-          <!-- ---------- Inscription rapide (sans compte) ---------- -->
-       
         </div>
 
       </div>
