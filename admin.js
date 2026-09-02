@@ -911,6 +911,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const id = document.getElementById('expertId').value;
     const fichier = document.getElementById('expertFile').files[0];
+    const fichierBadge = document.getElementById('expertBadgeFile').files[0];
 
     const donnees = {
       nom: document.getElementById('expertNom').value.trim(),
@@ -927,6 +928,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (uploadError) throw uploadError;
         const { data: publicUrlData } = sbClient.storage.from('galerie').getPublicUrl(chemin);
         donnees.photo_url = publicUrlData.publicUrl;
+      }
+
+      if (fichierBadge) {
+        const cheminBadge = `experts/badges/${Date.now()}-${fichierBadge.name.replace(/\s+/g, '-')}`;
+        const { error: uploadBadgeError } = await sbClient.storage.from('galerie').upload(cheminBadge, fichierBadge);
+        if (uploadBadgeError) throw uploadBadgeError;
+        const { data: publicBadgeUrlData } = sbClient.storage.from('galerie').getPublicUrl(cheminBadge);
+        donnees.badge_url = publicBadgeUrlData.publicUrl;
       }
 
       if (id) {

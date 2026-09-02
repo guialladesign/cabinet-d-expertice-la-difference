@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const { data: experts, error } = await sbClient
     .from('experts')
-    .select('id, nom, grade, bio, photo_url')
+    .select('id, nom, grade, bio, photo_url, badge_url')
     .eq('actif', true)
     .order('ordre', { ascending: true });
 
@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       ? `<img src="${e.photo_url}" alt="${e.nom}">`
       : `<i class="fa-solid fa-user-tie"></i>`;
 
+    const badgeHtml = e.badge_url
+      ? `<img src="${e.badge_url}" alt="Badge / certification de ${e.nom}" class="ld-expert-badge">`
+      : '';
+
     col.innerHTML = `
       <div class="ld-expert-card">
         <div class="ld-expert-avatar ${e.photo_url ? 'ld-expert-avatar-photo' : ''}">
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <h3 class="ld-expert-nom">${e.nom}</h3>
         ${e.grade ? `<p class="ld-expert-grade">${e.grade}</p>` : ''}
         ${e.bio ? `<p class="ld-expert-bio">${e.bio}</p>` : ''}
+        ${badgeHtml}
       </div>
     `;
     container.appendChild(col);

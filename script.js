@@ -173,11 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && videoModal.classList.contains('open')) closeVideoModal();
   });
 
-  /* ---------- Slider de témoignages ---------- */
+  /* ---------- Slider de témoignages (défilement uniquement au clic) ---------- */
   const testimonials = document.querySelectorAll('.ld-testimonial');
   const dots = document.querySelectorAll('.ld-dot');
+  const prevBtn = document.getElementById('testimonialPrev');
+  const nextBtn = document.getElementById('testimonialNext');
   let currentSlide = 0;
-  let sliderTimer = null;
 
   const showSlide = (index) => {
     testimonials.forEach(t => t.classList.remove('active'));
@@ -187,24 +188,25 @@ document.addEventListener('DOMContentLoaded', () => {
     currentSlide = index;
   };
 
-  const nextSlide = () => {
-    const next = (currentSlide + 1) % testimonials.length;
-    showSlide(next);
-  };
-
-  const startAutoSlide = () => {
-    clearInterval(sliderTimer);
-    sliderTimer = setInterval(nextSlide, 6000);
-  };
-
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       showSlide(parseInt(dot.dataset.slide, 10));
-      startAutoSlide();
     });
   });
 
-  if (testimonials.length) startAutoSlide();
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const prev = (currentSlide - 1 + testimonials.length) % testimonials.length;
+      showSlide(prev);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const next = (currentSlide + 1) % testimonials.length;
+      showSlide(next);
+    });
+  }
 
   /* ---------- Formulaire de contact (envoi réel via Netlify Forms) ---------- */
   const form = document.getElementById('contactForm');

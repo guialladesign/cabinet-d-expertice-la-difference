@@ -63,6 +63,7 @@
         <div class="ld-hero-actions" data-aos>
           <a href="formations.html" class="btn ld-btn-primary btn-lg">Voir les formations</a>
           <a href="contact.html" class="btn ld-btn-outline btn-lg">Nous contacter</a>
+          <a href="compte.html" class="btn ld-btn-outline btn-lg"><i class="fa-solid fa-user"></i> Se connecter / Créer un compte</a>
         </div>
       </div>
 
@@ -116,51 +117,59 @@
   <div class="container">
     <div class="row g-4 text-center">
       <div class="col-6 col-lg-3">
-        <div class="ld-stat">
-          <svg class="ld-stat-ring" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" class="stat-track"/>
-            <circle cx="60" cy="60" r="52" class="stat-fill" data-target="200" data-max="200"/>
-          </svg>
-          <div class="ld-stat-text">
-            <span class="ld-stat-number" data-count="200">0</span><span class="ld-stat-plus">+</span>
-            <p>Personnes formées</p>
+        <div class="ld-stat" data-stat-key="personnes_formees">
+          <div class="ld-stat-ring-wrap">
+            <svg class="ld-stat-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" class="stat-track"/>
+              <circle cx="60" cy="60" r="52" class="stat-fill" data-target="200" data-max="200"/>
+            </svg>
+            <div class="ld-stat-number-overlay">
+              <span class="ld-stat-number" data-count="200">0</span><span class="ld-stat-plus">+</span>
+            </div>
           </div>
+          <p class="ld-stat-label">Personnes formées</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="ld-stat">
-          <svg class="ld-stat-ring" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" class="stat-track"/>
-            <circle cx="60" cy="60" r="52" class="stat-fill" data-target="50" data-max="50"/>
-          </svg>
-          <div class="ld-stat-text">
-            <span class="ld-stat-number" data-count="50">0</span><span class="ld-stat-plus">+</span>
-            <p>Formations réalisées</p>
+        <div class="ld-stat" data-stat-key="formations_realisees">
+          <div class="ld-stat-ring-wrap">
+            <svg class="ld-stat-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" class="stat-track"/>
+              <circle cx="60" cy="60" r="52" class="stat-fill" data-target="50" data-max="50"/>
+            </svg>
+            <div class="ld-stat-number-overlay">
+              <span class="ld-stat-number" data-count="50">0</span><span class="ld-stat-plus">+</span>
+            </div>
           </div>
+          <p class="ld-stat-label">Formations réalisées</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="ld-stat">
-          <svg class="ld-stat-ring" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" class="stat-track"/>
-            <circle cx="60" cy="60" r="52" class="stat-fill" data-target="100" data-max="100"/>
-          </svg>
-          <div class="ld-stat-text">
-            <span class="ld-stat-number" data-count="100">0</span><span class="ld-stat-plus">+</span>
-            <p>Organisations accompagnées</p>
+        <div class="ld-stat" data-stat-key="organisations_accompagnees">
+          <div class="ld-stat-ring-wrap">
+            <svg class="ld-stat-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" class="stat-track"/>
+              <circle cx="60" cy="60" r="52" class="stat-fill" data-target="100" data-max="100"/>
+            </svg>
+            <div class="ld-stat-number-overlay">
+              <span class="ld-stat-number" data-count="100">0</span><span class="ld-stat-plus">+</span>
+            </div>
           </div>
+          <p class="ld-stat-label">Organisations accompagnées</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="ld-stat">
-          <svg class="ld-stat-ring" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" class="stat-track"/>
-            <circle cx="60" cy="60" r="52" class="stat-fill" data-target="95" data-max="100"/>
-          </svg>
-          <div class="ld-stat-text">
-            <span class="ld-stat-number" data-count="95">0</span><span class="ld-stat-plus">%</span>
-            <p>Taux de satisfaction</p>
+        <div class="ld-stat" data-stat-key="taux_satisfaction">
+          <div class="ld-stat-ring-wrap">
+            <svg class="ld-stat-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" class="stat-track"/>
+              <circle cx="60" cy="60" r="52" class="stat-fill" data-target="95" data-max="100"/>
+            </svg>
+            <div class="ld-stat-number-overlay">
+              <span class="ld-stat-number" data-count="95">0</span><span class="ld-stat-plus">%</span>
+            </div>
           </div>
+          <p class="ld-stat-label">Taux de satisfaction</p>
         </div>
       </div>
     </div>
@@ -188,40 +197,50 @@
     <p class="ld-eyebrow text-center">Témoignages</p>
     <h2 class="ld-h2 text-center">Ce qu'ils disent de nous</h2>
 
-    <div class="ld-testimonial-slider mt-4">
-      <div class="ld-testimonial active">
-        <i class="fa-solid fa-quote-left"></i>
-        <p>« La formation en Suivi-Évaluation nous a permis de structurer enfin nos indicateurs de projet. L'équipe du Cabinet La Différence est rigoureuse et très pédagogue. »</p>
-        <div class="ld-testimonial-author">
-          <span class="ld-avatar">AS</span>
-          <div>
-            <strong>Aïcha Sawadogo</strong>
-            <small>Chargée de suivi-évaluation, ONG partenaire</small>
+    <div class="ld-testimonial-nav-wrap mt-4">
+      <button class="ld-testimonial-arrow" id="testimonialPrev" type="button" aria-label="Témoignage précédent">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="ld-testimonial-slider">
+        <div class="ld-testimonial active">
+          <i class="fa-solid fa-quote-left"></i>
+          <p>« La formation en Suivi-Évaluation nous a permis de structurer enfin nos indicateurs de projet. L'équipe du Cabinet La Différence est rigoureuse et très pédagogue. »</p>
+          <div class="ld-testimonial-author">
+            <span class="ld-avatar">AS</span>
+            <div>
+              <strong>Aïcha Sawadogo</strong>
+              <small>Chargée de suivi-évaluation, ONG partenaire</small>
+            </div>
+          </div>
+        </div>
+        <div class="ld-testimonial">
+          <i class="fa-solid fa-quote-left"></i>
+          <p>« Grâce à l'accompagnement stratégique, notre association a pu clarifier sa vision à trois ans et convaincre de nouveaux bailleurs. Un vrai partenaire de confiance. »</p>
+          <div class="ld-testimonial-author">
+            <span class="ld-avatar">RK</span>
+            <div>
+              <strong>Rasmané Kaboré</strong>
+              <small>Président d'association, Kaya</small>
+            </div>
+          </div>
+        </div>
+        <div class="ld-testimonial">
+          <i class="fa-solid fa-quote-left"></i>
+          <p>« La session sur les techniques de vente a directement amélioré les résultats de notre équipe commerciale. Approche concrète, exemples adaptés au contexte local. »</p>
+          <div class="ld-testimonial-author">
+            <span class="ld-avatar">FO</span>
+            <div>
+              <strong>Fatoumata Ouédraogo</strong>
+              <small>Responsable commerciale, PME Ouagadougou</small>
+            </div>
           </div>
         </div>
       </div>
-      <div class="ld-testimonial">
-        <i class="fa-solid fa-quote-left"></i>
-        <p>« Grâce à l'accompagnement stratégique, notre association a pu clarifier sa vision à trois ans et convaincre de nouveaux bailleurs. Un vrai partenaire de confiance. »</p>
-        <div class="ld-testimonial-author">
-          <span class="ld-avatar">RK</span>
-          <div>
-            <strong>Rasmané Kaboré</strong>
-            <small>Président d'association, Kaya</small>
-          </div>
-        </div>
-      </div>
-      <div class="ld-testimonial">
-        <i class="fa-solid fa-quote-left"></i>
-        <p>« La session sur les techniques de vente a directement amélioré les résultats de notre équipe commerciale. Approche concrète, exemples adaptés au contexte local. »</p>
-        <div class="ld-testimonial-author">
-          <span class="ld-avatar">FO</span>
-          <div>
-            <strong>Fatoumata Ouédraogo</strong>
-            <small>Responsable commerciale, PME Ouagadougou</small>
-          </div>
-        </div>
-      </div>
+
+      <button class="ld-testimonial-arrow" id="testimonialNext" type="button" aria-label="Témoignage suivant">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
 
     <div class="ld-testimonial-dots text-center mt-3">
