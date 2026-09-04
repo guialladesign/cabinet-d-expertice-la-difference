@@ -208,15 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Formulaire de contact (envoi réel via Netlify Forms) ---------- */
+  /* ---------- Formulaire de contact (envoi réel via Formspree) ---------- */
   const form = document.getElementById('contactForm');
   const feedback = document.getElementById('formFeedback');
-
-  const encoderDonneesFormulaire = (data) => {
-    return Object.keys(data)
-      .map(cle => encodeURIComponent(cle) + '=' + encodeURIComponent(data[cle]))
-      .join('&');
-  };
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mkjnzkvy';
 
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -231,18 +226,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const nom = document.getElementById('nom').value.trim();
       const formData = new FormData(form);
-      const donnees = {};
-      formData.forEach((valeur, cle) => { donnees[cle] = valeur; });
 
       feedback.textContent = 'Envoi en cours…';
       feedback.classList.remove('success', 'error');
 
-      fetch('/', {
+      fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encoderDonneesFormulaire(donnees)
+        headers: { 'Accept': 'application/json' },
+        body: formData
       })
-        .then(() => {
+        .then(response => {
+          if (!response.ok) throw new Error('Échec de l\'envoi');
           feedback.textContent = `Merci ${nom} ! Votre message a bien été envoyé. Notre équipe vous recontactera très vite.`;
           feedback.classList.add('success');
           form.reset();
