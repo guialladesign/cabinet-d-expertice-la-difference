@@ -192,10 +192,8 @@ img{ max-width: 100%; display:block; }
 /* ---------- Hero ---------- */
 .ld-hero{
   position: relative;
-  min-height: 92vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+  overflow: visible;
+  padding: 7.5rem 0 0;
   color: var(--ld-white);
 }
 .ld-hero-bg{
@@ -228,6 +226,7 @@ img{ max-width: 100%; display:block; }
   margin-bottom: 1.1rem;
 }
 .ld-hero-title span{ color: var(--ld-gold); }
+.ld-hero-title-big{ font-size: clamp(2.4rem, 6vw, 4.2rem); }
 .ld-hero-sub{
   font-size: 1.15rem;
   max-width: 560px;
@@ -241,6 +240,48 @@ img{ max-width: 100%; display:block; }
   margin-bottom: 2rem;
 }
 .ld-hero-actions{ display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ---------- Cartes qui chevauchent le bas de la bannière ---------- */
+.ld-hero-cards-wrap{
+  position: relative;
+  z-index: 3;
+  margin-top: 3rem;
+  transform: translateY(50%);
+}
+.ld-hero-card{
+  border-radius: var(--ld-radius);
+  padding: 1.8rem 1.6rem;
+  height: 100%;
+  box-shadow: 0 20px 45px -18px rgba(6,51,29,.4);
+  transition: var(--ld-transition);
+}
+.ld-hero-card:hover{ transform: translateY(-4px); }
+.ld-hero-card i{ font-size: 1.6rem; margin-bottom: 1rem; display: block; }
+.ld-hero-card h3{
+  font-family: var(--ld-font-display);
+  font-size: 1.1rem;
+  margin-bottom: .5rem;
+}
+.ld-hero-card p{ font-size: .88rem; margin-bottom: 1rem; }
+.ld-hero-card a{ font-weight: 600; font-size: .88rem; text-decoration: none; }
+.ld-hero-card a i{ display: inline; font-size: .78rem; margin: 0; margin-left: .2rem; }
+.ld-hero-card-white{ background: var(--ld-white); color: var(--ld-text); }
+.ld-hero-card-white i, .ld-hero-card-white a{ color: var(--ld-green-dark); }
+.ld-hero-card-gold{ background: var(--ld-gold); color: var(--ld-green-ink); }
+.ld-hero-card-gold i, .ld-hero-card-gold a{ color: var(--ld-green-ink); }
+.ld-hero-card-dark{ background: var(--ld-green-ink); color: var(--ld-white); }
+.ld-hero-card-dark p{ color: rgba(255,255,255,.75); }
+.ld-hero-card-dark i, .ld-hero-card-dark a{ color: var(--ld-gold); }
+
+/* ---------- Sections "aperçu" (À propos / Programmes) ---------- */
+.ld-teaser-section{ padding-top: 7.5rem; }
+.ld-teaser-img{
+  width: 100%;
+  aspect-ratio: 4/3.2;
+  object-fit: cover;
+  border-radius: var(--ld-radius);
+  box-shadow: var(--ld-shadow);
+}
 
 /* Signature: progress-ring dashboard */
 .ld-ring-dashboard{
@@ -1209,7 +1250,9 @@ img{ max-width: 100%; display:block; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px){
-  .ld-hero{ min-height: auto; padding-top: 2rem; }
+  .ld-hero{ padding-top: 6.5rem; }
+  .ld-hero-cards-wrap{ transform: none; margin-top: 2rem; margin-bottom: -1.5rem; }
+  .ld-teaser-section{ padding-top: 4.5rem; }
   .ld-section{ padding: 4rem 0; }
   .ld-about-badge{ position: static; margin-top: 1rem; }
 }
