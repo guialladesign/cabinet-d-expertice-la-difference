@@ -1096,50 +1096,66 @@ img{ max-width: 100%; display:block; }
 }
 
 /* ---------- Carrousel d'actualités ---------- */
-.ld-actus-section{ position: relative; }
+.ld-actus-section{ position: relative; background: var(--ld-grey); }
 .ld-actu-slide{
-  position: relative;
+  display: flex;
+  flex-direction: row;
   min-height: 340px;
-  background-size: cover;
-  background-position: center;
+  background: var(--ld-white);
+}
+.ld-actu-image-wrap{
+  flex: 0 0 44%;
+  background: var(--ld-grey);
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
-.ld-actu-overlay{
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(6,51,29,.92) 0%, rgba(6,51,29,.55) 55%, rgba(6,51,29,.25) 100%);
+.ld-actu-image{
+  max-width: 100%;
+  max-height: 340px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
 }
 .ld-actu-content{
-  position: relative;
-  z-index: 2;
-  color: var(--ld-white);
-  max-width: 640px;
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 3rem;
+  color: var(--ld-green-ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+.ld-actu-content .ld-eyebrow{ color: var(--ld-green-dark); }
 .ld-actu-title{
   font-family: var(--ld-font-display);
   font-weight: 700;
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  color: var(--ld-green-ink);
   margin-bottom: .6rem;
 }
 .ld-actu-extrait{
-  color: rgba(255,255,255,.85);
+  color: var(--ld-text-muted);
   font-size: .98rem;
   margin-bottom: .4rem;
 }
-#actualitesCarousel .carousel-indicators{ margin-bottom: 1rem; }
+#actualitesCarousel .carousel-indicators{ margin-bottom: 1rem; position: relative; }
 #actualitesCarousel .carousel-indicators button{
-  background-color: var(--ld-gold);
+  background-color: var(--ld-green-dark);
   width: 10px; height: 10px;
   border-radius: 50%;
-  opacity: .5;
+  opacity: .35;
 }
 #actualitesCarousel .carousel-indicators button.active{ opacity: 1; }
 #actualitesCarousel .carousel-control-prev-icon,
 #actualitesCarousel .carousel-control-next-icon{
-  background-color: rgba(255,255,255,.15);
+  background-color: rgba(11,107,58,.12);
   border-radius: 50%;
   padding: 1.2rem;
   background-size: 45%;
+  filter: invert(20%) sepia(40%) saturate(1000%) hue-rotate(100deg);
 }
 
 /* ---------- Cartes "Nos Experts" ---------- */
@@ -1211,8 +1227,10 @@ img{ max-width: 100%; display:block; }
   .ld-stat-ring{ width: 88px; height: 88px; }
 }
 @media (max-width: 767.98px){
-  .ld-actu-slide{ min-height: 280px; padding: 1.5rem 0; }
-  .ld-actu-overlay{ background: linear-gradient(180deg, rgba(6,51,29,.5) 0%, rgba(6,51,29,.92) 70%); }
+  .ld-actu-slide{ flex-direction: column; min-height: auto; }
+  .ld-actu-image-wrap{ flex: none; width: 100%; padding: 1rem 1rem 0; }
+  .ld-actu-image{ max-height: 220px; }
+  .ld-actu-content{ padding: 1.2rem 1.5rem 1.8rem; text-align: center; align-items: center; }
 }
 @media (max-width: 575.98px){
   .ld-hero-actions{ flex-direction: column; }

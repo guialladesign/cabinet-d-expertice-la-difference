@@ -27,10 +27,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const slide = document.createElement('div');
     slide.className = `carousel-item${index === 0 ? ' active' : ''}`;
     slide.innerHTML = `
-      <div class="ld-actu-slide" style="background-image:url('${a.image_url}');">
-        <div class="ld-actu-overlay"></div>
-        <div class="container ld-actu-content">
-          <p class="ld-eyebrow" style="color:var(--ld-green-light);">${formatDateActu(a.date_publication)}</p>
+      <div class="ld-actu-slide">
+        <div class="ld-actu-image-wrap">
+          <img src="${a.image_url}" alt="${a.titre}" class="ld-actu-image">
+        </div>
+        <div class="ld-actu-content">
+          <p class="ld-eyebrow">${formatDateActu(a.date_publication)}</p>
           <h2 class="ld-actu-title">${a.titre}</h2>
           ${a.extrait ? `<p class="ld-actu-extrait">${a.extrait}</p>` : ''}
           ${lienHtml}
