@@ -30,7 +30,7 @@
 <section class="ld-section ld-auth-section" id="adminLoginSection">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-5">
+      <div class="col-12 col-lg-5">
         <p class="ld-eyebrow text-center">Espace réservé</p>
         <h1 class="ld-h2 text-center">Administration</h1>
         <p class="ld-lead text-center mb-4">Connectez-vous avec votre compte autorisé.</p>
@@ -80,27 +80,27 @@
         <form class="ld-auth-card mb-4" id="formationForm">
           <input type="hidden" id="formationId" value="">
           <div class="row g-3">
-            <div class="col-sm-3">
+            <div class="col-12 col-sm-3">
               <label class="form-label">Code</label>
               <input type="text" class="form-control ld-input" id="formationCode" placeholder="Ex : PMA-12" required>
             </div>
-            <div class="col-sm-9">
+            <div class="col-12 col-sm-9">
               <label class="form-label">Titre</label>
               <input type="text" class="form-control ld-input" id="formationTitre" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-12 col-sm-4">
               <label class="form-label">Lieu</label>
               <input type="text" class="form-control ld-input" id="formationLieu" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-12 col-sm-4">
               <label class="form-label">Date de début</label>
               <input type="date" class="form-control ld-input" id="formationDateDebut" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-12 col-sm-4">
               <label class="form-label">Date de fin</label>
               <input type="date" class="form-control ld-input" id="formationDateFin" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-12 col-sm-4">
               <label class="form-label">Type</label>
               <select class="form-select ld-input" id="formationType">
                 <option value="simple" selected>Simple (attestation)</option>
@@ -180,7 +180,7 @@
       </div>
 
       <!-- ---------- Ajouter une attestation ---------- -->
-      <div class="col-lg-6">
+      <div class="col-12 col-lg-6">
         <h2 class="ld-h3">Ajouter une attestation</h2>
         <form class="ld-auth-card" id="attestationForm">
           <div class="mb-3">
@@ -209,7 +209,7 @@
       </div>
 
       <!-- ---------- Ajouter une photo/vidéo à la galerie ---------- -->
-      <div class="col-lg-6">
+      <div class="col-12 col-lg-6">
         <h2 class="ld-h3">Ajouter à la galerie du site</h2>
         <form class="ld-auth-card" id="galerieForm">
           <div class="mb-3">
@@ -244,7 +244,7 @@
       </div>
 
       <!-- ---------- Bannière du site (photo ou vidéo) ---------- -->
-      <div class="col-lg-6">
+      <div class="col-12 col-lg-6">
         <h2 class="ld-h3">Bannière d'accueil (photo ou vidéo)</h2>
         <div class="ld-auth-card">
           <div class="mb-3">
@@ -264,7 +264,7 @@
       </div>
 
       <!-- ---------- Image de la section À propos ---------- -->
-      <div class="col-lg-6">
+      <div class="col-12 col-lg-6">
         <h2 class="ld-h3">Média de la section "À propos" (badge année de création)</h2>
         <div class="ld-auth-card">
           <div class="mb-3">
@@ -284,7 +284,7 @@
       </div>
 
       <!-- ---------- Photo de profil du DG ---------- -->
-      <div class="col-lg-6">
+      <div class="col-12 col-lg-6">
         <h2 class="ld-h3">Photo de profil du DG</h2>
         <div class="ld-auth-card">
           <div class="mb-3">
@@ -311,19 +311,19 @@
         <form class="ld-auth-card mb-4" id="expertForm">
           <input type="hidden" id="expertId" value="">
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Photo (optionnel)</label>
               <input type="file" class="form-control ld-input" id="expertFile" accept="image/*">
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Nom complet</label>
               <input type="text" class="form-control ld-input" id="expertNom" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Grade / titre</label>
               <input type="text" class="form-control ld-input" id="expertGrade" placeholder="Ex : Expert en gestion de projet">
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
               <label class="form-label">Ordre d'affichage</label>
               <input type="number" class="form-control ld-input" id="expertOrdre" value="0">
             </div>
@@ -337,7 +337,7 @@
               <label class="form-label">Bio / présentation</label>
               <textarea class="form-control ld-input" id="expertBio" rows="2"></textarea>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Badge / certification (optionnel)</label>
               <input type="file" class="form-control ld-input" id="expertBadgeFile" accept="image/*">
               <small class="text-muted">Image du badge si l'expert possède une certification (ex : PM4DEV, agrément...).</small>
@@ -361,12 +361,12 @@
         <form class="ld-auth-card mb-4" id="actualiteForm">
           <input type="hidden" id="actualiteId" value="">
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Image</label>
               <input type="file" class="form-control ld-input" id="actualiteFile" accept="image/*">
               <small class="text-muted">Obligatoire pour une nouvelle actualité. Laissez vide pour garder l'image actuelle lors d'une modification.</small>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Titre</label>
               <input type="text" class="form-control ld-input" id="actualiteTitre" required>
             </div>
@@ -374,11 +374,11 @@
               <label class="form-label">Extrait (courte description)</label>
               <textarea class="form-control ld-input" id="actualiteExtrait" rows="2"></textarea>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <label class="form-label">Lien "En savoir plus" (optionnel)</label>
               <input type="url" class="form-control ld-input" id="actualiteLien" placeholder="https://...">
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
               <label class="form-label">Date de publication</label>
               <input type="date" class="form-control ld-input" id="actualiteDate">
             </div>
