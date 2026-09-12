@@ -256,12 +256,12 @@ img{ max-width: 100%; display:block; }
 }
 .ld-hero-actions{ display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* ---------- Cartes qui chevauchent le bas de la bannière ---------- */
+/* ---------- Cartes de domaines (sous le texte du hero, sans chevauchement) ---------- */
 .ld-hero-cards-wrap{
   position: relative;
   z-index: 3;
-  margin-top: 3rem;
-  transform: translateY(50%);
+  margin-top: 2.5rem;
+  padding-bottom: 3rem;
 }
 .ld-hero-card{
   border-radius: var(--ld-radius);
@@ -1274,7 +1274,7 @@ img, video{ max-width: 100%; height: auto; }
   .ld-hero{ padding-top: 6.5rem; }
   .ld-hero-bg{ border-radius: 0 0 20px 20px; }
   .ld-hero-text-panel{ padding: 1.6rem 1.6rem; border-radius: 16px; }
-  .ld-hero-cards-wrap{ transform: none; margin-top: 2rem; margin-bottom: -1.5rem; }
+  .ld-hero-cards-wrap{ margin-top: 2rem; padding-bottom: 2rem; }
   .ld-teaser-section{ padding-top: 4.5rem; }
   .ld-section{ padding: 4rem 0; }
   .ld-about-badge{ position: static; margin-top: 1rem; }
