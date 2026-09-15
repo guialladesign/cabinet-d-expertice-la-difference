@@ -354,6 +354,66 @@
         <p class="ld-empty-state" id="expertsAdminEmpty" hidden>Aucun expert pour le moment.</p>
       </div>
 
+      <!-- ---------- Catalogue (formations & conseils-assistance) ---------- -->
+      <div class="col-12">
+        <h2 class="ld-h3">Catalogue (formations & conseils-assistance)</h2>
+        <p class="ld-lead" style="font-size:.88rem;">
+          Liste complète des thèmes proposés, indépendante du calendrier (qui gère les dates).
+        </p>
+
+        <form class="ld-auth-card mb-4" id="catalogueForm">
+          <input type="hidden" id="catalogueId" value="">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label">Type</label>
+              <select class="form-select ld-input" id="catalogueType">
+                <option value="formation" selected>Formation</option>
+                <option value="conseil">Conseil-Assistance</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Code</label>
+              <input type="text" class="form-control ld-input" id="catalogueCode" placeholder="Ex : ASP_1" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Thème</label>
+              <input type="text" class="form-control ld-input" id="catalogueTheme" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Ordre d'affichage</label>
+              <input type="number" class="form-control ld-input" id="catalogueOrdre" value="0">
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="catalogueActif" checked>
+                <label class="form-check-label" for="catalogueActif">Visible sur le site</label>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-end gap-2">
+              <button type="submit" class="btn ld-btn-primary" id="catalogueSubmitBtn">Ajouter au catalogue</button>
+              <button type="button" class="btn ld-btn-outline-dark" id="catalogueCancelBtn" hidden>Annuler la modification</button>
+            </div>
+          </div>
+          <p class="ld-auth-feedback" id="catalogueFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="table-responsive ld-table-wrap">
+          <table class="table ld-table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Code</th>
+                <th>Thème</th>
+                <th>Statut</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="catalogueAdminTableBody"></tbody>
+          </table>
+        </div>
+        <p class="ld-empty-state" id="catalogueAdminEmpty" hidden>Aucune entrée pour le moment.</p>
+      </div>
+
       <!-- ---------- Actualités (carrousel accueil) ---------- -->
       <div class="col-12">
         <h2 class="ld-h3">Actualités (carrousel de la page d'accueil)</h2>

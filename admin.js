@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       loadGalerieAdmin(),
       loadParametresAdmin(),
       loadActualitesAdmin(),
-      loadExpertsAdmin()
+      loadExpertsAdmin(),
+      loadCatalogueAdmin()
     ]);
   };
 
@@ -956,6 +957,119 @@ document.addEventListener('DOMContentLoaded', async () => {
     } finally {
       submitBtn.disabled = false;
     }
+  });
+
+  /* =========================================================
+     GESTION DU CATALOGUE (formations & conseils-assistance)
+     ========================================================= */
+
+  const LABELS_TYPE_CATALOGUE = { formation: 'Formation', conseil: 'Conseil-Assistance' };
+
+  const loadCatalogueAdmin = async () => {
+    const tbody = document.getElementById('catalogueAdminTableBody');
+    const empty = document.getElementById('catalogueAdminEmpty');
+    tbody.innerHTML = '';
+
+    const { data: entrees, error } = await sbClient
+      .from('catalogue')
+      .select('id, type, code, theme, ordre, actif')
+      .order('type', { ascending: true })
+      .order('ordre', { ascending: true });
+
+    if (error || !entrees || entrees.length === 0) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    entrees.forEach(e => {
+      const tr = document.createElement('tr');
+      const statutLabel = e.actif
+        ? '<span class="ld-badge ld-badge-success">Visible</span>'
+        : '<span class="ld-badge ld-badge-muted">Masqué</span>';
+
+      tr.innerHTML = `
+        <td>${LABELS_TYPE_CATALOGUE[e.type] || e.type}</td>
+        <td><span class="ld-code">${e.code}</span></td>
+        <td>${e.theme}</td>
+        <td>${statutLabel}</td>
+        <td class="text-end">
+          <button class="btn ld-btn-mini ld-edit-catalogue" data-id="${e.id}" type="button">Modifier</button>
+          <button class="btn ld-btn-mini ld-delete-catalogue" data-id="${e.id}" type="button">Supprimer</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.querySelectorAll('.ld-edit-catalogue').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const e = entrees.find(x => x.id === btn.dataset.id);
+        if (!e) return;
+
+        document.getElementById('catalogueId').value = e.id;
+        document.getElementById('catalogueType').value = e.type;
+        document.getElementById('catalogueCode').value = e.code;
+        document.getElementById('catalogueTheme').value = e.theme;
+        document.getElementById('catalogueOrdre').value = e.ordre || 0;
+        document.getElementById('catalogueActif').checked = e.actif;
+
+        document.getElementById('catalogueSubmitBtn').textContent = 'Mettre à jour';
+        document.getElementById('catalogueCancelBtn').hidden = false;
+        document.getElementById('catalogueForm').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('.ld-delete-catalogue').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Supprimer cette entrée du catalogue ?')) return;
+        const { error } = await sbClient.from('catalogue').delete().eq('id', btn.dataset.id);
+        if (!error) loadCatalogueAdmin();
+      });
+    });
+  };
+
+  const reinitialiserFormulaireCatalogue = () => {
+    document.getElementById('catalogueForm').reset();
+    document.getElementById('catalogueId').value = '';
+    document.getElementById('catalogueActif').checked = true;
+    document.getElementById('catalogueType').value = 'formation';
+    document.getElementById('catalogueSubmitBtn').textContent = 'Ajouter au catalogue';
+    document.getElementById('catalogueCancelBtn').hidden = true;
+  };
+
+  document.getElementById('catalogueCancelBtn').addEventListener('click', reinitialiserFormulaireCatalogue);
+
+  document.getElementById('catalogueForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const feedback = document.getElementById('catalogueFeedback');
+    feedback.textContent = 'Enregistrement…';
+    feedback.className = 'ld-auth-feedback';
+
+    const id = document.getElementById('catalogueId').value;
+    const donnees = {
+      type: document.getElementById('catalogueType').value,
+      code: document.getElementById('catalogueCode').value.trim(),
+      theme: document.getElementById('catalogueTheme').value.trim(),
+      ordre: parseInt(document.getElementById('catalogueOrdre').value, 10) || 0,
+      actif: document.getElementById('catalogueActif').checked
+    };
+
+    const requete = id
+      ? sbClient.from('catalogue').update(donnees).eq('id', id)
+      : sbClient.from('catalogue').insert(donnees);
+
+    const { error } = await requete;
+
+    if (error) {
+      feedback.textContent = 'Erreur : ' + error.message;
+      feedback.classList.add('error');
+      return;
+    }
+
+    feedback.textContent = id ? 'Entrée mise à jour.' : 'Entrée ajoutée.';
+    feedback.classList.add('success');
+    reinitialiserFormulaireCatalogue();
+    loadCatalogueAdmin();
   });
 
   /* ---------- Démarrage ---------- */
