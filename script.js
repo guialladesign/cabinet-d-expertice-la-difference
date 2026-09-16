@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Formulaire de contact (envoi réel via Formspree) ---------- */
   const form = document.getElementById('contactForm');
   const feedback = document.getElementById('formFeedback');
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mkjnzkvy';
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/meaojznj';
 
   if (form) {
     form.addEventListener('submit', (e) => {
