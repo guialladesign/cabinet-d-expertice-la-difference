@@ -1255,13 +1255,61 @@ img{ max-width: 100%; display:block; }
   color: var(--ld-text-muted);
   margin: 0;
 }
-.ld-expert-badge{
-  width: 100%;
-  max-width: 160px;
-  margin: 1rem auto 0;
-  display: block;
-  border-radius: 8px;
+.ld-expert-badges{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .8rem;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(11,107,58,.1);
 }
+.ld-expert-badge-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 84px;
+}
+.ld-expert-badge-item img{
+  width: 64px; height: 64px;
+  object-fit: contain;
+  margin-bottom: .4rem;
+}
+.ld-expert-badge-item span{
+  font-size: .7rem;
+  color: var(--ld-text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ---------- Admin : gestion des badges par expert ---------- */
+.ld-badge-mini-list{ display: flex; flex-direction: column; gap: .4rem; }
+.ld-badge-mini-item{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--ld-grey);
+  border-radius: 8px;
+  padding: .35rem .5rem;
+}
+.ld-badge-mini-item img{
+  width: 28px; height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.ld-badge-mini-item span{
+  flex: 1;
+  font-size: .8rem;
+  color: var(--ld-text);
+}
+.ld-badge-mini-delete{
+  background: none;
+  border: none;
+  color: #C0392B;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.ld-badge-input-row{ align-items: center; }
 
 /* ---------- Responsive ---------- */
 

@@ -839,9 +839,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     empty.hidden = true;
 
+    const { data: tousLesBadges } = await sbClient
+      .from('expert_badges')
+      .select('id, expert_id, titre, badge_url')
+      .order('ordre', { ascending: true });
+
     experts.forEach(ex => {
       const col = document.createElement('div');
-      col.className = 'col-6 col-lg-3';
+      col.className = 'col-12 col-md-6 col-lg-4';
       const statutLabel = ex.actif
         ? '<span class="ld-badge ld-badge-success">Visible</span>'
         : '<span class="ld-badge ld-badge-muted">Masqué</span>';
@@ -849,17 +854,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         ? `<img src="${ex.photo_url}" alt="${ex.nom}" class="ld-admin-media-preview">`
         : `<div class="ld-admin-media-preview d-flex align-items-center justify-content-center"><i class="fa-solid fa-user-tie" style="font-size:2rem;color:var(--ld-text-muted);"></i></div>`;
 
+      const badgesDeCetExpert = (tousLesBadges || []).filter(b => b.expert_id === ex.id);
+      const badgesListHtml = badgesDeCetExpert.length
+        ? badgesDeCetExpert.map(b => `
+            <div class="ld-badge-mini-item">
+              <img src="${b.badge_url}" alt="${b.titre}">
+              <span>${b.titre}</span>
+              <button class="ld-badge-mini-delete ld-delete-badge" data-id="${b.id}" type="button" aria-label="Supprimer ce badge">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          `).join('')
+        : '<p class="text-muted small mb-2">Aucun badge.</p>';
+
       col.innerHTML = `
-        <div class="ld-admin-media-card">
-          ${previewHtml}
-          <p class="ld-admin-media-cat">${ex.nom}</p>
-          <p class="mb-2">${statutLabel}</p>
-          <div class="d-flex gap-1 justify-content-center">
-            <button class="btn ld-btn-mini ld-edit-expert" data-id="${ex.id}" type="button">Modifier</button>
-            <button class="btn ld-btn-mini ld-delete-expert" data-id="${ex.id}" type="button">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+        <div class="ld-admin-media-card text-start">
+          <div class="text-center">
+            ${previewHtml}
+            <p class="ld-admin-media-cat text-center">${ex.nom}</p>
+            <p class="mb-2 text-center">${statutLabel}</p>
+            <div class="d-flex gap-1 justify-content-center mb-3">
+              <button class="btn ld-btn-mini ld-edit-expert" data-id="${ex.id}" type="button">Modifier</button>
+              <button class="btn ld-btn-mini ld-delete-expert" data-id="${ex.id}" type="button">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
           </div>
+
+          <hr>
+          <p class="ld-eyebrow mb-2" style="font-size:.7rem;">Badges / certifications</p>
+          <div class="ld-badge-mini-list mb-2">${badgesListHtml}</div>
+
+          <form class="ld-add-badge-form" data-expert-id="${ex.id}">
+            <input type="text" class="form-control form-control-sm ld-input mb-2" placeholder="Titre du badge" required>
+            <input type="file" class="form-control form-control-sm ld-input mb-2" accept="image/*" required>
+            <button type="submit" class="btn ld-btn-mini w-100">+ Ajouter un badge</button>
+            <p class="ld-auth-feedback mb-0" style="font-size:.78rem;"></p>
+          </form>
         </div>
       `;
       list.appendChild(col);
@@ -885,12 +916,74 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelectorAll('.ld-delete-expert').forEach(btn => {
       btn.addEventListener('click', async () => {
-        if (!confirm('Supprimer ce profil d\'expert ?')) return;
+        if (!confirm('Supprimer ce profil d\'expert ? Ses badges seront aussi supprimés.')) return;
         const { error } = await sbClient.from('experts').delete().eq('id', btn.dataset.id);
         if (!error) loadExpertsAdmin();
       });
     });
+
+    document.querySelectorAll('.ld-delete-badge').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Supprimer ce badge ?')) return;
+        const { error } = await sbClient.from('expert_badges').delete().eq('id', btn.dataset.id);
+        if (!error) loadExpertsAdmin();
+      });
+    });
+
+    document.querySelectorAll('.ld-add-badge-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const expertId = form.dataset.expertId;
+        const titreInput = form.querySelector('input[type="text"]');
+        const fileInput = form.querySelector('input[type="file"]');
+        const feedback = form.querySelector('.ld-auth-feedback');
+        const fichier = fileInput.files[0];
+        if (!fichier) return;
+
+        feedback.textContent = 'Envoi…';
+        feedback.className = 'ld-auth-feedback';
+
+        try {
+          const chemin = `experts/badges/${Date.now()}-${fichier.name.replace(/\s+/g, '-')}`;
+          const { error: uploadError } = await sbClient.storage.from('galerie').upload(chemin, fichier);
+          if (uploadError) throw uploadError;
+          const { data: publicUrlData } = sbClient.storage.from('galerie').getPublicUrl(chemin);
+
+          const { error: insertError } = await sbClient.from('expert_badges').insert({
+            expert_id: expertId,
+            titre: titreInput.value.trim(),
+            badge_url: publicUrlData.publicUrl
+          });
+          if (insertError) throw insertError;
+
+          loadExpertsAdmin();
+        } catch (err) {
+          feedback.textContent = 'Erreur : ' + err.message;
+          feedback.classList.add('error');
+        }
+      });
+    });
   };
+
+  /* ---------- Lignes de badges dynamiques dans le formulaire d'ajout ---------- */
+  document.getElementById('expertAddBadgeRowBtn').addEventListener('click', () => {
+    const container = document.getElementById('expertBadgesContainer');
+    const row = document.createElement('div');
+    row.className = 'ld-badge-input-row row g-2 mb-2';
+    row.innerHTML = `
+      <div class="col-5">
+        <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge">
+      </div>
+      <div class="col-6">
+        <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
+      </div>
+      <div class="col-1 d-flex align-items-center">
+        <button type="button" class="btn-close ld-remove-badge-row" aria-label="Retirer cette ligne"></button>
+      </div>
+    `;
+    container.appendChild(row);
+    row.querySelector('.ld-remove-badge-row').addEventListener('click', () => row.remove());
+  });
 
   const reinitialiserFormulaireExpert = () => {
     document.getElementById('expertForm').reset();
@@ -898,6 +991,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('expertActif').checked = true;
     document.getElementById('expertSubmitBtn').textContent = 'Ajouter l\'expert';
     document.getElementById('expertCancelBtn').hidden = true;
+
+    // Remet la liste de badges du formulaire à une seule ligne vide
+    const container = document.getElementById('expertBadgesContainer');
+    container.innerHTML = `
+      <div class="ld-badge-input-row row g-2 mb-2">
+        <div class="col-5">
+          <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge (ex : PM4DEV)">
+        </div>
+        <div class="col-7">
+          <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
+        </div>
+      </div>
+    `;
   };
 
   document.getElementById('expertCancelBtn').addEventListener('click', reinitialiserFormulaireExpert);
@@ -912,7 +1018,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const id = document.getElementById('expertId').value;
     const fichier = document.getElementById('expertFile').files[0];
-    const fichierBadge = document.getElementById('expertBadgeFile').files[0];
 
     const donnees = {
       nom: document.getElementById('expertNom').value.trim(),
@@ -931,20 +1036,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         donnees.photo_url = publicUrlData.publicUrl;
       }
 
-      if (fichierBadge) {
-        const cheminBadge = `experts/badges/${Date.now()}-${fichierBadge.name.replace(/\s+/g, '-')}`;
-        const { error: uploadBadgeError } = await sbClient.storage.from('galerie').upload(cheminBadge, fichierBadge);
-        if (uploadBadgeError) throw uploadBadgeError;
-        const { data: publicBadgeUrlData } = sbClient.storage.from('galerie').getPublicUrl(cheminBadge);
-        donnees.badge_url = publicBadgeUrlData.publicUrl;
-      }
+      let expertId = id;
 
       if (id) {
         const { error } = await sbClient.from('experts').update(donnees).eq('id', id);
         if (error) throw error;
       } else {
-        const { error } = await sbClient.from('experts').insert(donnees);
+        const { data: nouvelExpert, error } = await sbClient.from('experts').insert(donnees).select('id').single();
         if (error) throw error;
+        expertId = nouvelExpert.id;
+      }
+
+      // Traite chaque ligne de badge remplie (titre + fichier tous les deux présents)
+      const lignesBadges = document.querySelectorAll('#expertBadgesContainer .ld-badge-input-row');
+      for (const ligne of lignesBadges) {
+        const titre = ligne.querySelector('.ld-badge-titre').value.trim();
+        const fichierBadge = ligne.querySelector('.ld-badge-fichier').files[0];
+        if (!titre || !fichierBadge) continue;
+
+        const cheminBadge = `experts/badges/${Date.now()}-${fichierBadge.name.replace(/\s+/g, '-')}`;
+        const { error: uploadBadgeError } = await sbClient.storage.from('galerie').upload(cheminBadge, fichierBadge);
+        if (uploadBadgeError) continue;
+        const { data: publicBadgeUrlData } = sbClient.storage.from('galerie').getPublicUrl(cheminBadge);
+
+        await sbClient.from('expert_badges').insert({
+          expert_id: expertId,
+          titre,
+          badge_url: publicBadgeUrlData.publicUrl
+        });
       }
 
       feedback.textContent = id ? 'Expert mis à jour.' : 'Expert ajouté.';

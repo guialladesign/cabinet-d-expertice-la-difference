@@ -1,6 +1,7 @@
 /* =========================================================
    CABINET D'EXPERTISE LA DIFFÉRENCE — PROFIL-DG.JS
-   Charge et affiche tous les profils d'experts depuis Supabase.
+   Charge et affiche tous les profils d'experts depuis Supabase,
+   avec la totalité de leurs badges/certifications (0, 1 ou plusieurs).
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const { data: experts, error } = await sbClient
     .from('experts')
-    .select('id, nom, grade, bio, photo_url, badge_url')
+    .select('id, nom, grade, bio, photo_url')
     .eq('actif', true)
     .order('ordre', { ascending: true });
 
@@ -19,6 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     empty.hidden = false;
     return;
   }
+
+  const { data: badges } = await sbClient
+    .from('expert_badges')
+    .select('expert_id, titre, badge_url')
+    .order('ordre', { ascending: true });
 
   experts.forEach(e => {
     const col = document.createElement('div');
@@ -28,8 +34,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       ? `<img src="${e.photo_url}" alt="${e.nom}">`
       : `<i class="fa-solid fa-user-tie"></i>`;
 
-    const badgeHtml = e.badge_url
-      ? `<img src="${e.badge_url}" alt="Badge / certification de ${e.nom}" class="ld-expert-badge">`
+    const badgesDeCetExpert = (badges || []).filter(b => b.expert_id === e.id);
+    const badgesHtml = badgesDeCetExpert.length
+      ? `<div class="ld-expert-badges">
+          ${badgesDeCetExpert.map(b => `
+            <div class="ld-expert-badge-item">
+              <img src="${b.badge_url}" alt="${b.titre}">
+              <span>${b.titre}</span>
+            </div>
+          `).join('')}
+        </div>`
       : '';
 
     col.innerHTML = `
@@ -40,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <h3 class="ld-expert-nom">${e.nom}</h3>
         ${e.grade ? `<p class="ld-expert-grade">${e.grade}</p>` : ''}
         ${e.bio ? `<p class="ld-expert-bio">${e.bio}</p>` : ''}
-        ${badgeHtml}
+        ${badgesHtml}
       </div>
     `;
     container.appendChild(col);

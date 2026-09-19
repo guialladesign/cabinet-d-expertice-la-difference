@@ -337,10 +337,19 @@
               <label class="form-label">Bio / présentation</label>
               <textarea class="form-control ld-input" id="expertBio" rows="2"></textarea>
             </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label">Badge / certification (optionnel)</label>
-              <input type="file" class="form-control ld-input" id="expertBadgeFile" accept="image/*">
-              <small class="text-muted">Image du badge si l'expert possède une certification (ex : PM4DEV, agrément...).</small>
+            <div class="col-12">
+              <label class="form-label">Badges / certifications (optionnel)</label>
+              <div id="expertBadgesContainer">
+                <div class="ld-badge-input-row row g-2 mb-2">
+                  <div class="col-5">
+                    <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge (ex : PM4DEV)">
+                  </div>
+                  <div class="col-7">
+                    <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn ld-btn-mini" id="expertAddBadgeRowBtn">+ Ajouter un autre badge</button>
             </div>
             <div class="col-12 d-flex gap-2">
               <button type="submit" class="btn ld-btn-primary" id="expertSubmitBtn">Ajouter l'expert</button>
