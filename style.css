@@ -1257,29 +1257,31 @@ img{ max-width: 100%; display:block; }
 }
 .ld-expert-badges{
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: .8rem;
-  margin-top: 1.2rem;
-  padding-top: 1.2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+  padding-top: 1.4rem;
   border-top: 1px solid rgba(11,107,58,.1);
 }
 .ld-expert-badge-item{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 84px;
+  width: 100%;
+  max-width: 220px;
 }
 .ld-expert-badge-item img{
-  width: 64px; height: 64px;
+  width: 160px; height: 160px;
   object-fit: contain;
-  margin-bottom: .4rem;
+  margin-bottom: .6rem;
 }
 .ld-expert-badge-item span{
-  font-size: .7rem;
-  color: var(--ld-text-muted);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--ld-green-ink);
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 /* ---------- Admin : gestion des badges par expert ---------- */
