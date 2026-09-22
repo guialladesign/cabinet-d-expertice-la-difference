@@ -338,18 +338,21 @@
               <textarea class="form-control ld-input" id="expertBio" rows="2"></textarea>
             </div>
             <div class="col-12">
-              <label class="form-label">Badges / certifications (optionnel)</label>
+              <label class="form-label">Domaines d'expertise / badges (optionnel)</label>
               <div id="expertBadgesContainer">
-                <div class="ld-badge-input-row row g-2 mb-2">
+                <div class="ld-badge-input-row row g-2 mb-2 pb-2" style="border-bottom:1px dashed rgba(11,107,58,.15);">
                   <div class="col-5">
-                    <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge (ex : PM4DEV)">
+                    <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du domaine (ex : Expert en Développement Économique)">
                   </div>
                   <div class="col-7">
                     <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
                   </div>
+                  <div class="col-12">
+                    <textarea class="form-control form-control-sm ld-input ld-badge-competences" rows="2" placeholder="Compétences (une par ligne)&#10;Ex :&#10;Gestion des entreprises&#10;Développement des PME"></textarea>
+                  </div>
                 </div>
               </div>
-              <button type="button" class="btn ld-btn-mini" id="expertAddBadgeRowBtn">+ Ajouter un autre badge</button>
+              <button type="button" class="btn ld-btn-mini" id="expertAddBadgeRowBtn">+ Ajouter un autre domaine / badge</button>
             </div>
             <div class="col-12 d-flex gap-2">
               <button type="submit" class="btn ld-btn-primary" id="expertSubmitBtn">Ajouter l'expert</button>

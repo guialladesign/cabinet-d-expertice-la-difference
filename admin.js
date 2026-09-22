@@ -841,7 +841,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const { data: tousLesBadges } = await sbClient
       .from('expert_badges')
-      .select('id, expert_id, titre, badge_url')
+      .select('id, expert_id, titre, badge_url, competences')
       .order('ordre', { ascending: true });
 
     experts.forEach(ex => {
@@ -882,13 +882,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
 
           <hr>
-          <p class="ld-eyebrow mb-2" style="font-size:.7rem;">Badges / certifications</p>
+          <p class="ld-eyebrow mb-2" style="font-size:.7rem;">Domaines d'expertise / badges</p>
           <div class="ld-badge-mini-list mb-2">${badgesListHtml}</div>
 
           <form class="ld-add-badge-form" data-expert-id="${ex.id}">
-            <input type="text" class="form-control form-control-sm ld-input mb-2" placeholder="Titre du badge" required>
-            <input type="file" class="form-control form-control-sm ld-input mb-2" accept="image/*" required>
-            <button type="submit" class="btn ld-btn-mini w-100">+ Ajouter un badge</button>
+            <input type="text" class="form-control form-control-sm ld-input mb-2 ld-badge-titre-carte" placeholder="Titre du domaine" required>
+            <input type="file" class="form-control form-control-sm ld-input mb-2 ld-badge-fichier-carte" accept="image/*" required>
+            <textarea class="form-control form-control-sm ld-input mb-2 ld-badge-competences-carte" rows="2" placeholder="Compétences (une par ligne)"></textarea>
+            <button type="submit" class="btn ld-btn-mini w-100">+ Ajouter ce domaine</button>
             <p class="ld-auth-feedback mb-0" style="font-size:.78rem;"></p>
           </form>
         </div>
@@ -934,8 +935,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const expertId = form.dataset.expertId;
-        const titreInput = form.querySelector('input[type="text"]');
-        const fileInput = form.querySelector('input[type="file"]');
+        const titreInput = form.querySelector('.ld-badge-titre-carte');
+        const fileInput = form.querySelector('.ld-badge-fichier-carte');
+        const competencesInput = form.querySelector('.ld-badge-competences-carte');
         const feedback = form.querySelector('.ld-auth-feedback');
         const fichier = fileInput.files[0];
         if (!fichier) return;
@@ -952,7 +954,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           const { error: insertError } = await sbClient.from('expert_badges').insert({
             expert_id: expertId,
             titre: titreInput.value.trim(),
-            badge_url: publicUrlData.publicUrl
+            badge_url: publicUrlData.publicUrl,
+            competences: competencesInput.value.trim()
           });
           if (insertError) throw insertError;
 
@@ -969,16 +972,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('expertAddBadgeRowBtn').addEventListener('click', () => {
     const container = document.getElementById('expertBadgesContainer');
     const row = document.createElement('div');
-    row.className = 'ld-badge-input-row row g-2 mb-2';
+    row.className = 'ld-badge-input-row row g-2 mb-2 pb-2';
+    row.style.borderBottom = '1px dashed rgba(11,107,58,.15)';
     row.innerHTML = `
       <div class="col-5">
-        <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge">
+        <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du domaine">
       </div>
       <div class="col-6">
         <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
       </div>
       <div class="col-1 d-flex align-items-center">
         <button type="button" class="btn-close ld-remove-badge-row" aria-label="Retirer cette ligne"></button>
+      </div>
+      <div class="col-12">
+        <textarea class="form-control form-control-sm ld-input ld-badge-competences" rows="2" placeholder="Compétences (une par ligne)"></textarea>
       </div>
     `;
     container.appendChild(row);
@@ -995,12 +1002,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Remet la liste de badges du formulaire à une seule ligne vide
     const container = document.getElementById('expertBadgesContainer');
     container.innerHTML = `
-      <div class="ld-badge-input-row row g-2 mb-2">
+      <div class="ld-badge-input-row row g-2 mb-2 pb-2" style="border-bottom:1px dashed rgba(11,107,58,.15);">
         <div class="col-5">
-          <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du badge (ex : PM4DEV)">
+          <input type="text" class="form-control form-control-sm ld-input ld-badge-titre" placeholder="Titre du domaine (ex : Expert en Développement Économique)">
         </div>
         <div class="col-7">
           <input type="file" class="form-control form-control-sm ld-input ld-badge-fichier" accept="image/*">
+        </div>
+        <div class="col-12">
+          <textarea class="form-control form-control-sm ld-input ld-badge-competences" rows="2" placeholder="Compétences (une par ligne)"></textarea>
         </div>
       </div>
     `;
@@ -1052,6 +1062,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       for (const ligne of lignesBadges) {
         const titre = ligne.querySelector('.ld-badge-titre').value.trim();
         const fichierBadge = ligne.querySelector('.ld-badge-fichier').files[0];
+        const competencesEl = ligne.querySelector('.ld-badge-competences');
+        const competences = competencesEl ? competencesEl.value.trim() : '';
         if (!titre || !fichierBadge) continue;
 
         const cheminBadge = `experts/badges/${Date.now()}-${fichierBadge.name.replace(/\s+/g, '-')}`;
@@ -1062,7 +1074,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         await sbClient.from('expert_badges').insert({
           expert_id: expertId,
           titre,
-          badge_url: publicBadgeUrlData.publicUrl
+          badge_url: publicBadgeUrlData.publicUrl,
+          competences
         });
       }
 
