@@ -53,10 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             return `
               <div class="ld-domaine-block">
                 <h4 class="ld-domaine-titre">${d.titre}</h4>
-                <div class="ld-domaine-row">
-                  <img src="${d.badge_url}" alt="${d.titre}" class="ld-domaine-badge-img">
-                  ${listeHtml}
-                </div>
+                ${listeHtml}
+                <img src="${d.badge_url}" alt="${d.titre}" class="ld-domaine-badge-img">
               </div>
             `;
           }).join('')}
